@@ -200,7 +200,8 @@ def get_variables():
     VARDICT["WEIGHTSLEE"] = WEIGHTSLEE
 
     # SYSTVARS = ["weightsGenie", "weightsFlux", "weightsReint"]
-    SYSTVARS = ["weightsGenie"] # This is temporary for ntuples missing weightsFlux and weightsReint
+    # SYSTVARS = ["weightsGenie"] # This is temporary for ntuples missing weightsFlux and weightsReint
+    SYSTVARS = []
 
     VARDICT["SYSTVARS"] = SYSTVARS
 
@@ -2111,14 +2112,21 @@ def load_sample(
 
         SYSTVARS = ["weightsGenie", "weightsFlux", "weightsReint"]
         if dataset not in ["ext", "bnb"]: # adding multi-universe weights as column of arrays in simulation dataframes
+            SYSTVARS_empty=[]
             for column in SYSTVARS:
-                if column not in variables: # for empty multi-universe branches, filling default value 1000
-                    df[column] = 1000
-            columns_to_list = SYSTVARS
-            columns_present = df.columns
-            agg_dict = {col: 'first' for col in columns_present if col not in columns_to_list}
-            agg_dict.update({col: list for col in columns_to_list if col in columns_present})
-            df = df.groupby('entry').agg(agg_dict)
+                df_verse=up.arrays([column], library="pd")
+                if df_verse.empty:
+                    SYSTVARS_empty = SYSTVARS_empty+[column]
+            SYSTVARS_notempty = list(set(SYSTVARS) - set(SYSTVARS_empty))
+            df_multiverse=up.arrays(SYSTVARS_notempty, library="pd")
+            for column in SYSTVARS_empty:
+                df_multiverse[column] = 1000
+
+            columns_multiverse = df_multiverse.columns
+            agg_dict = {col: list for col in columns_multiverse}
+            df_multiverse = df_multiverse.groupby('entry').agg(agg_dict)
+
+            df = pd.concat([df, df_multiverse], axis=1)
 
         df["bnbdata"] = dataset in datasets 
         df["extdata"] = dataset == "ext"
