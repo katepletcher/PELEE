@@ -191,6 +191,10 @@ class RunHistPlotter:
             )
         else:
             chi_square = None
+        # print("total_pred_hist: ", total_pred_hist)
+        # print("total_pred_hist bin counts: ", total_pred_hist.bin_counts)
+        # print("background_hists: ", background_hists)
+        # print("background_hists bin counts: ", background_hists.bin_counts)       # Throws an error
         ax = self._plot(
             total_pred_hist,
             background_hists,
@@ -648,7 +652,8 @@ class RunHistPlotter:
         y = np.array([repeated_nom_values(hist) for hist in hists])
         labels = [hist.tex_string for hist in hists]
         if show_counts:
-            labels = [f"{label}: {hist.sum():.0f}" for label, hist in zip(labels, hists)]
+            # labels = [f"{label}: {hist.sum():.0f}" for label, hist in zip(labels, hists)]    # for integer counts
+            labels = [f"{label}: {hist.sum():.1f}" for label, hist in zip(labels, hists)]    # for counts with 1 decimal place
         colors = None
         colors = [hist.color for hist in hists]
         # Hatches may be None

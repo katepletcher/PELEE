@@ -9,10 +9,24 @@ PREPI0Q += ' and shr_energy_tot_cali > 0.07'
 PREPI0Q += ' and ( (_opfilter_pe_beam > 0 and _opfilter_pe_veto < 20) or bnbdata == 1 or extdata == 1)'
 
 # nue preselection
-PRESQ = 'nslice == 1'
-PRESQ += ' and selected == 1'
+# PRESQ = 'nslice == 1'
+PRESQ = 'slice_orig_pass_id == 1'
+# PRESQ += ' and selected == 1'
+PRESQ += ' and n_showers_contained == 1'  # Replaces 'selected'
+PRESQ += ' and contained_fraction > 0.9'  # Replaces 'selected'
 PRESQ += ' and shr_energy_tot_cali > 0.07'
 PRESQ += ' and ( (_opfilter_pe_beam > 0 and _opfilter_pe_veto < 20) or bnbdata == 1 or extdata == 1)'
+
+# crt preselection
+CRTSEL = '(crtveto != 1 or crthitpe < 100)'
+
+CRTFULLSEL = '(crtveto != 1 or crthitpe < 100) and _closestNuCosmicDist > 5.'
+
+# Selection to reduce cosmic background only
+LOWCOSMICS = PRESQ
+LOWCOSMICS += ' and crtveto != 1'
+LOWCOSMICS += ' and CosmicIPAll3D > 10.'
+LOWCOSMICS += ' and trkfit < 0.65'
 
 # 1e1p preselection
 OnePPRESQ = PRESQ
@@ -34,6 +48,11 @@ OnePLCUTQ += ' and shr_trk_len < 300.'
 # 1eNp0$\\pi$ preselection
 NPPRESQ = PRESQ
 NPPRESQ += ' and n_tracks_contained > 0'
+
+NPPRESQCRT = NPPRESQ
+# NPPRESQCRT += ' and (crtveto != 1 or crthitpe < 100) and _closestNuCosmicDist > 5.'
+NPPRESQCRT += ' and (crtveto != 1 or crthitpe < 100)'
+
 NPPRESQLowE = NPPRESQ + ' and (0.15 < reco_e and reco_e < 0.65)'
 NPPRESQ_one_shower = NPPRESQ + ' and n_showers_contained == 1'
 NPPRESQ_one_shower_one_track = NPPRESQ_one_shower + ' and n_tracks_contained == 1'
@@ -160,12 +179,23 @@ ZPPRESEL_onep_track = ZPPRESEL_all_tracks + ' and n_tracks_contained > 0'
 ZPPRESEL = ZPPRESEL_all_tracks + ' and n_tracks_contained == 0'
 ZPPRESELLowE = ZPPRESEL + ' and (0.15 < reco_e and reco_e < 0.65)'
 
+ZPPRESELCRT = ZPPRESEL
+# ZPPRESELCRT += ' and (crtveto != 1 or crthitpe < 100) and _closestNuCosmicDist > 5.'
+# ZPPRESELCRT += ' and (crtveto != 1 or crthitpe < 100)'
+ZPPRESELCRT += ' and crtveto != 1'
+# ZPPRESELCRT += ' and crthitpe < 100'
+# ZPPRESELCRT += ' and crthitpe < 70'
+# ZPPRESELCRT += ' and _closestNuCosmicDist > 5.'
+# ZPPRESELCRT += ' and (crtveto != 1 and crthitpe < 100)'
+# ZPPRESELCRT += ' and (crtveto != 1 and crthitpe < 70)'
+# ZPPRESELCRT += ' and (crtveto != 1 or crthitpe < 70)'
+
 ZPBOXCUTS_all_tracks = ZPPRESEL_all_tracks
 ZPBOXCUTS_all_tracks += ' and n_showers_contained == 1'
 ZPBOXCUTS_all_tracks += ' and shrmoliereavg > 1 and shrmoliereavg < 8'
 ZPBOXCUTS_all_tracks += ' and shr_score < 0.05'
-ZPBOXCUTS_all_tracks += ' and CosmicIPAll3D > 20. '
-ZPBOXCUTS_all_tracks += ' and (CosmicDirAll3D<0.75 and CosmicDirAll3D>-0.75)'
+# ZPBOXCUTS_all_tracks += ' and CosmicIPAll3D > 20. '
+# ZPBOXCUTS_all_tracks += ' and (CosmicDirAll3D<0.75 and CosmicDirAll3D>-0.75)'
 ZPBOXCUTS_all_tracks += ' and trkfit < 0.4'
 ZPBOXCUTS_all_tracks += ' and subcluster > 6'
 ZPBOXCUTS_all_tracks += " and (shr_tkfit_gap10_dedx_Y>1.5 & shr_tkfit_gap10_dedx_Y<2.5)"
@@ -197,6 +227,204 @@ ZPLOOSESEL = ZPLOOSESEL_all_tracks + ' and n_tracks_contained == 0'
 ZPBDTLOOSE_all_tracks = ZPLOOSESEL_all_tracks
 ZPBDTLOOSE_all_tracks += ' and bkg_score > 0.72'
 
+# ZPLOOSENEW = ZPPRESELCRT
+# # ZPLOOSENEW = ZPPRESEL
+# ZPLOOSENEW += ' and n_showers_contained == 1'
+# ZPLOOSENEW += ' and CosmicIPAll3D > 10.'
+# # ZPLOOSENEW += ' and CosmicDirAll3D < 0.9'
+# ZPLOOSENEW += ' and shrmoliereavg < 20'
+# # ZPLOOSENEW += ' and subcluster > 4'
+# ZPLOOSENEW += ' and subcluster > 5'
+# # ZPLOOSENEW += ' and secondshower_Y_nhit < 40'
+# # ZPLOOSENEW += ' and trkfit < 0.65'
+# ZPLOOSENEW += ' and shr_trk_sce_start_y > -100 and shr_trk_sce_start_y < 100'
+# # ZPLOOSENEW += ' and shr_trk_len < 300'
+# ZPLOOSENEW += ' and shr_trk_len > 20'
+# ZPLOOSENEW += ' and (n_tracks_tot == 0 or (n_tracks_tot>0 and tk1sh1_angle_alltk>-0.9))'
+# # ZPLOOSENEW += ' and n_tracks_contained == 0'
+
+# # ZPLOOSENEW += ' and normdiffY > -2 and normdiffY < 2'
+# # ZPLOOSENEW += ' and diffY < 85'
+# # ZPLOOSENEW += ' and diffZ > -50'
+# ZPLOOSENEW += ' and diffZ > -70 and diffZ < 80'
+# ZPLOOSENEW += ' and normdiffZ > -0.75 and normdiffZ < 0.75'
+# ZPLOOSENEW += ' and fnl > -200 and fnl < 50'
+
+# # ZPLOOSENEW += ' and slcng2hip < 40'
+# # ZPLOOSENEW += ' and slcng2mip < 50'
+# # ZPLOOSENEW += ' and slcng2mcl < 40'
+# # ZPLOOSENEW += ' and clung2hip < 50'
+
+# # ZPLOOSENEW += ' and bkg_score > 0.5'
+
+# # ZPLOOSENEW += ' and shr_trk_len < 200 and shr_trk_len > 20'
+# # ZPLOOSENEW += ' and CylFrac2h_1cm < 0.4'
+# ZPLOOSENEW += ' and CylFrac2h_1cm < 0.7'
+
+ZPLOOSENEW = ZPPRESELCRT
+ZPLOOSENEW += ' and n_tracks_contained == 0'
+ZPLOOSENEW += ' and n_showers_contained == 1'
+ZPLOOSENEW += ' and CosmicIPAll3D > 10.'
+ZPLOOSENEW += ' and shrmoliereavg < 20'
+ZPLOOSENEW += ' and subcluster > 5'
+ZPLOOSENEW += ' and shr_trk_sce_start_y > -100 and shr_trk_sce_start_y < 100'
+ZPLOOSENEW += ' and shr_trk_len > 20'
+ZPLOOSENEW += ' and CylFrac2h_1cm < 0.7'
+ZPLOOSENEW += ' and shrMCSMom > 20'
+ZPLOOSENEW += ' and (n_tracks_tot == 0 or (n_tracks_tot>0 and tk1sh1_angle_alltk>-0.9))'
+ZPLOOSENEW += ' and diffZ > -70 and diffZ < 80'
+ZPLOOSENEW += ' and normdiffZ > -0.75 and normdiffZ < 0.75'
+ZPLOOSENEW += ' and fnl > -200 and fnl < 50'
+
+# PRESQ += ' and pi0_score > 0.925'
+# PRESQ += ' and bkg_score > 0.95'
+# PRESQ += ' and bkg_Np_score < 0.6'
+# PRESQ += ' and pi0_Np_score < 0.5'
+# PRESQ += ' and nonpi0_Np_score < 0.7'
+# PRESQ += ' and nonpi0_score > 0.975'
+# PRESQ += ' and tksh_distance > 20'
+# PRESQ += ' and trkfit > 0.05'
+# PRESQ += ' and secondshower_V_vtxdist < 110'
+# PRESQ += ' and proton_e < 1'
+# PRESQ += ' and slcng2hip < 40'
+# PRESQ += ' and slcng2mip < 50'
+# PRESQ += ' and slcng2mcl < 40'
+
+# PRESQ += ' and pi0_score > 0.95'
+# PRESQ += ' and nonpi0_score > 0.975'
+# PRESQ += ' and ng2hip_r10cm < 20'
+# PRESQ += ' and clung2hip < 20'
+# PRESQ += ' and nhits_r3cm < 60'
+# PRESQ += ' and CosmicDirAll3D > -0.95'
+# PRESQ += ' and normdiffZ < 0.6'
+# PRESQ += ' and diffZ < 50'
+# PRESQ += ' and secondshower_Y_vtxdist > 5'
+# PRESQ += ' and DeltaRMS2h > 1.5'
+# PRESQ += ' and CosmicIPAll3D < 250'
+
+# PRESQ += ' and slcng2hip < 20'
+# PRESQ += ' and nhits_r5cm < 75'
+# PRESQ += ' and CosmicDirAll3D > -0.95'
+# PRESQ += ' and normdiffZ < 0.6'
+# PRESQ += ' and diffZ < 50'
+# PRESQ += ' and DeltaRMS2h > 1.5'
+# PRESQ += ' and CosmicIPAll3D < 250'
+# PRESQ += ' and proton_ke > 0.04 and proton_ke < 0.05'
+# PRESQ += ' and proton_ke > 0.05 and proton_ke < 0.15'
+# PRESQ += ' and proton_ke > 0.15'
+
+# PRESQ += ' and ng2hip_r10cm < 20'
+# PRESQ += ' and clung2hip < 20'
+# PRESQ += ' and nhits_r3cm < 70'
+# PRESQ += ' and CosmicDirAll3D > -0.95'
+# PRESQ += ' and CosmicIPAll3D > 12'
+# PRESQ += ' and normdiffZ < 0.6'
+# PRESQ += ' and secondshower_Y_vtxdist > 5'
+# PRESQ += ' and DeltaRMS2h > 1.5'
+# PRESQ += ' and DeltaRMS2h > 2.75'
+# PRESQ += ' and CosmicIPAll3D < 250'
+# PRESQ += ' and anglediff_Y < 160'
+
+# ZPLOOSENEW += ' and bkg_score > 0.9'
+# ZPLOOSENEW += ' and slcng2hip < 15'
+
+ZPNEWBDT = ZPLOOSENEW
+ZPNEWBDT += ' and pi0_score > 0.925'
+ZPNEWBDT += ' and nonpi0_score > 0.975'
+# ZPNEWBDT += ' and bkg_score > 0.3'
+
+ZPLOOSEEVENTS = ZPLOOSENEW
+ZPLOOSEEVENTS += ' and shr_tkfit_gap10_dedx_Y > 3.8'
+
+
+ZPLOOSETEST = ZPLOOSENEW
+ZPLOOSETEST += ' and secondshr_veto_tot_ext_tight > 1'
+
+ZPPREVETO = ZPPRESELCRT
+ZPPREVETO += ' and secondshr_veto_tot_ext_tight > 1'
+
+ZPVETOEXTENDED30 = ZPLOOSENEW
+ZPVETOEXTENDED30 += ' and secondshr_veto_tot_ext_30 > 1'
+
+ZPVETOEXTENDED40 = ZPLOOSENEW
+ZPVETOEXTENDED40 += ' and secondshr_veto_tot_ext_40 > 1'
+
+ZPVETOEXTENDED60 = ZPLOOSENEW
+ZPVETOEXTENDED60 += ' and secondshr_veto_tot_ext_60 > 1'
+
+ZPVETOEXTENDED70 = ZPLOOSENEW
+ZPVETOEXTENDED70 += ' and secondshr_veto_tot_ext_70 > 1'
+
+ZPVETOEXTENDED80 = ZPLOOSENEW
+ZPVETOEXTENDED80 += ' and secondshr_veto_tot_ext_80 > 1'
+
+ZPVETOEXTENDED90 = ZPLOOSENEW
+ZPVETOEXTENDED90 += ' and secondshr_veto_tot_ext_90 > 1'
+
+ZPVETOEXTENDEDTIGHT = ZPLOOSENEW
+ZPVETOEXTENDEDTIGHT += ' and secondshr_veto_tot_ext_tight > 1'
+
+
+ZPLOOSECRT = ZPLOOSESEL
+# ZPLOOSECRT += ' and (crtveto != 1 or crthitpe < 100)'
+ZPLOOSECRT += ' and (crtveto != 1 or crthitpe < 100) and _closestNuCosmicDist > 5.'
+
+ZPLOOSESLICE = ZPLOOSESEL
+ZPLOOSESLICE += ' and fnl > -180 and fnl < 35'
+ZPLOOSESLICE += ' and diffY > -85 and diffY < 75'
+ZPLOOSESLICE += ' and diffZ > -50 and diffZ < 90'
+ZPLOOSESLICE += ' and normdiffZ > -0.5 and normdiffZ < 0.85'
+ZPLOOSESLICE += ' and normdiffY > -1.9 and normdiffY < 1.9'
+ZPLOOSESLICE += ' and secondshr_veto_tot_ext_70 > 1'
+
+# ZPVETOEXTENDED30 = ZPLOOSESEL
+# ZPVETOEXTENDED30 += ' and secondshr_veto_tot_ext_30 > 1'
+
+# ZPVETOEXTENDED40 = ZPLOOSESEL
+# ZPVETOEXTENDED40 += ' and secondshr_veto_tot_ext_40 > 1'
+
+# ZPVETOEXTENDED60 = ZPLOOSESEL
+# ZPVETOEXTENDED60 += ' and secondshr_veto_tot_ext_60 > 1'
+
+# ZPVETOEXTENDED70 = ZPLOOSESEL
+# ZPVETOEXTENDED70 += ' and secondshr_veto_tot_ext_70 > 1'
+
+# ZPVETOEXTENDED80 = ZPLOOSESEL
+# ZPVETOEXTENDED80 += ' and secondshr_veto_tot_ext_80 > 1'
+
+# ZPVETOEXTENDED90 = ZPLOOSESEL
+# ZPVETOEXTENDED90 += ' and secondshr_veto_tot_ext_90 > 1'
+
+# ZPVETOEXTENDEDTIGHT = ZPLOOSESEL
+# ZPVETOEXTENDEDTIGHT += ' and secondshr_veto_tot_ext_tight > 1'
+
+ZPLOOSEVETO10 = ZPLOOSESEL
+ZPLOOSEVETO10 += ' and secondshr_veto_tot_10 > 1'
+# ZPLOOSEVETO10 += ' and secondshower_Y_nhit < 25'
+# ZPLOOSEVETO10 += ' and anglediff_Y < 150'
+
+ZPLOOSESLICE15 = ZPLOOSESEL
+ZPLOOSESLICE15 += ' and secondshr_veto_tot_15 > 1'
+# ZPLOOSESLICE15 += ' and secondshower_Y_nhit < 20'
+# ZPLOOSESLICE15 += ' and anglediff_Y < 115'
+
+ZPLOOSEVETO15 = ZPLOOSESEL
+ZPLOOSEVETO15 += ' and secondshr_veto_tot_15 > 1'
+ZPLOOSEVETO15 += ' and secondshower_U_vtxdist < 120'
+ZPLOOSEVETO15 += ' and secondshower_U_nhit < 35'
+ZPLOOSEVETO15 += ' and secondshower_V_nhit < 40'
+ZPLOOSEVETO15 += ' and anglediff_Y < 200'
+ZPLOOSEVETO15 += ' and secondshower_Y_nhit < 15'
+
+ZPLOOSEVETO15 += ' and fnl > -180 and fnl < 35'
+ZPLOOSEVETO15 += ' and diffZ > -50 and diffZ < 90'
+ZPLOOSEVETO15 += ' and normdiffZ > -0.5 and normdiffZ < 0.85'
+ZPLOOSEVETO15 += ' and normdiffY > -1.9 and normdiffY < 1.9'
+
+ZPLOOSEVETO = ZPLOOSESEL
+ZPLOOSEVETO += ' and secondshr_veto_tot > 1'
+
+
 # CT: Adding new query for inverted BDT cuts
 ZPBDTLOOSE_all_tracks_INV = ZPLOOSESEL_all_tracks 
 ZPBDTLOOSE_all_tracks_INV  += ' and bkg_score < 0.72'
@@ -208,6 +436,14 @@ ZPBDTLOOSE = ZPBDTLOOSE_all_tracks + ' and n_tracks_contained == 0'
 ZPBDTLOOSE += ' and (n_tracks_tot == 0 or (n_tracks_tot>0 and tk1sh1_angle_alltk>-0.9))'
 
 ZPBDTLOOSE_CRT = ZPBDTLOOSE + ' and (crtveto != 1 or crthitpe < 100) and _closestNuCosmicDist > 5.'
+
+ZPBDTLOOSE_CRTLITE = ZPBDTLOOSE + ' and (crtveto != 1 or crthitpe < 100)'
+
+ZPBDTLOOSESLICE = ZPBDTLOOSE
+ZPBDTLOOSESLICE += ' and diffZ > -80 and diffZ < 65'
+ZPBDTLOOSESLICE += ' and fnl > -180 and fnl < 60'
+ZPBDTLOOSESLICE += ' and subcluster > 6'
+ZPBDTLOOSESLICE += ' and trkfit < 0.525'
 
 ZPBDTLOOSE_INV = ZPBDTLOOSE_all_tracks_INV + ' and n_tracks_contained == 0'
 ZPBDTLOOSE_INV += ' and (n_tracks_tot == 0 or (n_tracks_tot>0 and tk1sh1_angle_alltk>-0.9))'
@@ -360,7 +596,8 @@ PI0SEL += ' and pi0_dedx1_fit_Y >= %f'%DEDXCUT
 
 
 # numu selection
-NUMUPRESEL = 'nslice == 1'
+# NUMUPRESEL = 'nslice == 1'
+NUMUPRESEL = 'slice_orig_pass_id == 1'
 NUMUPRESEL += ' and ( (_opfilter_pe_beam > 0 and _opfilter_pe_veto < 20) or bnbdata == 1 or extdata == 1)'
 NUMUPRESEL += ' and reco_nu_vtx_sce_x > 5 and reco_nu_vtx_sce_x < 251. '
 NUMUPRESEL += ' and reco_nu_vtx_sce_y > -110 and reco_nu_vtx_sce_y < 110. '
@@ -374,7 +611,7 @@ NUMUCRT = ' and (crtveto != 1 or crthitpe < 100) and _closestNuCosmicDist > 5.'
 NUMUPRESELCRT = NUMUPRESEL + NUMUCRT
 
 NUMUSEL = NUMUPRESEL + ' and n_muons_tot > 0'
-NUMUSEL0PI = NUMUSEL + ' and n_muons_tot == 1 and n_showers_tot == 0'
+NUMUSEL0PI = NUMUSEL + ' and n_muons_tot == 1 and z == 0'
 
 NUMUSEL0PI = NUMUSEL + ' and n_muons_tot == 1 and n_showers_tot == 0'
 
@@ -442,12 +679,16 @@ sideband_categories = {
 preselection_categories = {
     'PI0': {'query': PREPI0Q, 'title': 'Pi0 Presel.', 'dir': 'PI0'},
     'NUE': {'query': PRESQ, 'title': 'Nue Presel.', 'dir': 'NUE'},
+    'CRT': {'query': CRTSEL, 'title': 'CRT Sel.', 'dir': 'CRT'},
+    'CRTFULL': {'query': CRTFULLSEL, 'title': 'CRT Sel.', 'dir': 'CRTFULL'},
     'NP': {'query': NPPRESQ, 'title': '1eNp0$\\pi$ Presel.', 'dir': 'NP'},
+    'NPCRT': {'query': NPPRESQCRT, 'title': '1eNp0$\\pi$ Presel. w/ CRT', 'dir': 'NPCRT'},
     'NPLowE': {'query': NPPRESQLowE, 'title': '1eNp0$\\pi$ Presel. Low E', 'dir': 'NPLowE'},
     'NPOneShr': {'query': NPPRESQ_one_shower, 'title': '1eNp0$\\pi$ Presel., 1 shower', 'dir': 'NPOneShr'},
     'NPOneTrk': {'query': NPPRESQ_one_track, 'title': '1eNp0$\\pi$ Presel., 1 track', 'dir': 'NPOneTrk'},
     'NPTwoPTrk': {'query': NPPRESQ_twoplus_tracks, 'title': '1eNp0$\\pi$ Presel., 2+ tracks', 'dir': 'NPTwoPTrk'},
     'ZP': {'query': ZPPRESEL, 'title': '1e0p0$\\pi$ Presel.', 'dir': 'ZP'},
+    'ZPCRT': {'query': ZPPRESELCRT, 'title': '1e0p0$\\pi$ Presel. w/ CRT', 'dir': 'ZPCRT'},
     'ZPLowE': {'query': ZPPRESELLowE, 'title': '1e0p0$\\pi$ Presel. Low E', 'dir': 'ZPLowE'},
     'ZPOneShr': {'query': ZPPRESEL_one_shower, 'title': '1e0p0$\\pi$ Presel., 1 shower', 'dir': 'ZPOneShr'},
     'ZPAllTrks': {'query': ZPPRESEL_all_tracks, 'title': '1e0p0$\\pi$ Presel., 0+ tracks', 'dir': 'ZPAllTrks'},
@@ -457,13 +698,15 @@ preselection_categories = {
     'NSLICE': {'query': 'nslice==1', 'title': r"SliceID selection", 'dir': 'NSLICE'},
     'NUMU': {'query': NUMUPRESEL, 'title': r"$\nu_{\mu}$ selection", 'dir': 'NUMU'},
     'NUMUCRT': {'query': NUMUPRESELCRT, 'title': r"$\nu_{\mu}$ pre-selection w/ CRT", 'dir': 'NUMUCRT'},
-    'OneP': {'query': OnePPRESQ, 'title': '1e1p Presel.', 'dir': 'OneP'}
-
+    'OneP': {'query': OnePPRESQ, 'title': '1e1p Presel.', 'dir': 'OneP'},
 }
 
 
 # selection categories
 selection_categories = {
+    'CRT': {'query': CRTSEL, 'title': 'CRT Sel.', 'dir': 'CRT'},
+    'CRTFULL': {'query': CRTFULLSEL, 'title': 'CRT Sel.', 'dir': 'CRTFULL'},
+    'LOWCOSMICS': {'query': LOWCOSMICS, 'title': 'Cosmic Background Cuts', 'dir': 'LOWCOSMICS'},
     'NPVL': {'query': NPVLCUTQ, 'title': '1eNp0$\\pi$ VL cuts', 'dir': 'NPVL'},
     'NPL': {'query': NPLCUTQ, 'title': '1eNp0$\\pi$ Loose cuts', 'dir': 'NPL'},
     'NPT': {'query': NPTCUTQ, 'title': '1eNp0$\\pi$ Tight cuts', 'dir': 'NPT'},
@@ -480,11 +723,32 @@ selection_categories = {
     'TESTBDT05AllShr': {'query': TESTBDT05CQ_all_showers, 'title': '1eNp0$\\pi$ BDT > 0.5, 0+ showers', 'dir': 'TESTBDT05AllShr'},
     'TESTBDT02AllShr': {'query': TESTBDT02CQ_all_showers, 'title': '1eNp0$\\pi$ BDT > 0.2, 0+ showers', 'dir': 'TESTBDT02AllShr'},
     'None': {'query': None, 'title': 'NoCuts', 'dir': 'None'},
+    'ZP': {'query': ZPPRESEL, 'title': '1e0p0$\\pi$ Presel.', 'dir': 'ZP'},
     'ZPBDT': {'query': ZPBDTLOOSE, 'title': '1e0p0$\\pi$ BDT sel.', 'dir': 'ZPBDT'},
+    'ZPNEWBDT': {'query': ZPNEWBDT, 'title': '1e0p0$\\pi$ BDT Scores', 'dir': 'ZPNEWBDT'},
+    'ZPBDTSLICE': {'query': ZPBDTLOOSESLICE, 'title': '1e0p0$\\pi$ BDT sel. w/ slice cuts', 'dir': 'ZPBDTSLICE'},
+    'ZPBDTCRTLITE': {'query': ZPBDTLOOSE_CRTLITE, 'title': '1e0p0$\\pi$ BDT sel. w/ CRT', 'dir': 'ZPBDTCRTLITE'},
     'ZPBDTTIGHT': {'query': ZPBDT, 'title': '1e0p0$\\pi$ BDT Tighter sel.', 'dir': 'ZPBDTTIGHT'},
     'ZPT': {'query': ZPBOXCUTS, 'title': '1e0p0$\\pi$ Tight Cuts sel.', 'dir': 'ZPT'},
     'ZPBDTAllTrk': {'query': ZPBDTLOOSE_all_tracks, 'title': '1e0p0$\\pi$ BDT sel.', 'dir': 'ZPBDTAllTrk'},
     'ZPLOOSESEL': {'query': ZPLOOSESEL, 'title': '1e0p0$\\pi$ Loose sel.', 'dir': 'ZPLOOSESEL'},
+    'ZPLOOSENEW': {'query': ZPLOOSENEW, 'title': 'New 1e0p0$\\pi$ Loose sel.', 'dir': 'ZPLOOSENEW'},
+    'ZPLOOSEEVENTS': {'query': ZPLOOSEEVENTS, 'title': '1e0p0$\\pi$ Loose sel. w/ dEdx > 3.8', 'dir': 'ZPLOOSEEVENTS'},
+    'ZPLOOSETEST': {'query': ZPLOOSETEST, 'title': 'Test 1e0p0$\\pi$ Loose sel.', 'dir': 'ZPLOOSETEST'},
+    'ZPPREVETO': {'query': ZPPREVETO, 'title': '1e0p0$\\pi$ Presel. w/ Second Shr Veto', 'dir': 'ZPPREVETO'},
+    'ZPVETOEXT30': {'query': ZPVETOEXTENDED30, 'title': '1e0p0$\\pi$ Loose sel. w/ Second Shr Veto', 'dir': 'ZPVETOEXT30'},
+    'ZPVETOEXT40': {'query': ZPVETOEXTENDED40, 'title': '1e0p0$\\pi$ Loose sel. w/ Second Shr Veto', 'dir': 'ZPVETOEXT40'},
+    'ZPVETOEXT60': {'query': ZPVETOEXTENDED60, 'title': '1e0p0$\\pi$ Loose sel. w/ Second Shr Veto', 'dir': 'ZPVETOEXT60'},
+    'ZPVETOEXT70': {'query': ZPVETOEXTENDED70, 'title': '1e0p0$\\pi$ Loose sel. w/ Second Shr Veto', 'dir': 'ZPVETOEXT70'},
+    'ZPVETOEXT80': {'query': ZPVETOEXTENDED80, 'title': '1e0p0$\\pi$ Loose sel. w/ Second Shr Veto', 'dir': 'ZPVETOEXT80'},
+    'ZPVETOEXT90': {'query': ZPVETOEXTENDED90, 'title': '1e0p0$\\pi$ Loose sel. w/ Second Shr Veto', 'dir': 'ZPVETOEXT90'},
+    'ZPVETOEXTTIGHT': {'query': ZPVETOEXTENDEDTIGHT, 'title': '1e0p0$\\pi$ Loose sel. w/ Second Shr Veto', 'dir': 'ZPVETOEXTTIGHT'},
+    'ZPLOOSESELCRT': {'query': ZPLOOSECRT, 'title': '1e0p0$\\pi$ Loose sel. w/ CRT', 'dir': 'ZPLOOSESELCRT'},
+    'ZPLOOSESELNEW': {'query': ZPLOOSESLICE, 'title': '1e0p0$\\pi$ Loose sel. w/ CRT and tight slice cuts', 'dir': 'ZPLOOSESELNEW'},
+    'ZPLOOSE15': {'query': ZPLOOSESLICE15, 'title': '1e0p0$\\pi$ Loose sel. w/ CRT and tight slice cuts', 'dir': 'ZPLOOSE15'},
+    'ZPVETO10': {'query': ZPLOOSEVETO10, 'title': '1e0p0$\\pi$ Loose sel. w/ CRT and anglediff_Y < 10', 'dir': 'ZPVETO10'},
+    'ZPVETO15': {'query': ZPLOOSEVETO15, 'title': '1e0p0$\\pi$ Loose sel. w/ CRT and anglediff_Y < 15', 'dir': 'ZPVETO15'},
+    'ZPVETO': {'query': ZPLOOSEVETO, 'title': '1e0p0$\\pi$ Loose sel. w/ CRT and anglediff_Y < 20', 'dir': 'ZPVETO'},
     'ZPONEGAMMA': {'query': ZPONEGAMMA, 'title': '1g1p sel.', 'dir': 'ZPONEGAMMA'},
     'ZPLAllTrk': {'query': ZPLOOSESEL_all_tracks, 'title': '1e0p0$\\pi$ Loose sel.', 'dir': 'ZPLAllTrk'},
     'NUMUPRE': {'query': NUMUPRESEL, 'title': r"$\nu_{\mu}$ pre-selection", 'dir': 'NUMU'},

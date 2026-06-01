@@ -171,11 +171,23 @@ class RunHistGenerator:
         df_data = rundata_dict["data"] if showdata else None
         if query is not None:
             self.logger.debug(f"Applying query {query} to all dataframes.")
-            # The Python engine is necessary because the queries tend to have too many inputs
-            # for numexpr to handle.
+            # The Python engine is necessary because the queries tend to have too many inputs for numexpr to handle.
+            # Apply selection to mc dataframes here
             df_mc = df_mc.query(query, engine="python")
+            # Change print settings so I can see entire output
+            pd.set_option("display.max_rows", None)
+            # Print run, subrun, and event after selection is applied :P
+            # print(df_mc["run"])
+            # print(df_mc["sub"])
+            # print(df_mc["evt"])
+            # I believe this one is the truth variable
+            # print(df_mc["nu_pdg"])
+            # CC = 0, NC = 1
+            # print(df_mc["ccnc"])
+            # print(df_mc["category"]==11)
             if df_ext is not None:
                 df_ext = df_ext.query(query, engine="python")
+                # print(df_ext["category"])
             if df_data is not None:
                 df_data = df_data.query(query, engine="python")
             # the query has already been applied, so we can set it to None

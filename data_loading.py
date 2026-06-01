@@ -20,6 +20,8 @@ from numu_tki import selection_1muNp
 from numu_tki import signal_1muNp 
 from numu_tki import tki_calculators 
 
+from sklearn.model_selection import train_test_split
+
 from microfit.selections import extract_variables_from_query
 
 datasets = ["bnb","opendata_bnb","nuwro_fd"]
@@ -165,11 +167,53 @@ def get_variables():
         # "trk_dir_x_v",
         # "trk_dir_y_v",
         # "trk_dir_z_v",
+        "slice_orig_pass_id",
+        "flash_y_flash_matching",
+        "flash_ywidth_flash_matching",
+        "flash_z_flash_matching",
+        "flash_zwidth_flash_matching",
+        "nu_centerX",
+        "nu_centerY",
+        "nu_centerZ",
+        "flash_pe_flash_matching",
+        "nu_totalCharge",
+        # "interaction_time_abs",
+        # "mc_interaction_time",            # mc only  
+        # "time_offset",                     # mc only
+        "slcng2mip",
+        "slcng2hip",
+        "slcng2shr",
+        "slcng2mcl",
+        "slcng2dfs",
+        "slcng2bkg",
+        "clung2mip",
+        "clung2hip",
+        "clung2shr",
+        "clung2mcl",
+        "clung2dfs",
+        "clung2bkg",
+        "nhits_r1cm",
+        "nhits_r3cm",
+        "nhits_r5cm",
+        "nhits_r10cm",
+        "ng2hip_r1cm",
+        "ng2hip_r3cm",
+        "ng2hip_r5cm",
+        "ng2hip_r10cm",
+        "ng2clu_hip_r1cm",
+        "ng2clu_hip_r3cm",
+        "ng2clu_hip_r5cm",
+        "ng2clu_hip_r10cm",
+        "ng2clu_hippfp_r1cm",
+        "ng2clu_hippfp_r3cm",
+        "ng2clu_hippfp_r5cm",
+        "ng2clu_hippfp_r10cm",
     ]
 
     VARDICT["VARIABLES"] = VARIABLES
 
     CRTVARS = ["crtveto", "crthitpe", "_closestNuCosmicDist"]
+    # CRTVARS = ["crtveto", "crthitpe"]
 
     VARDICT["CRTVARS"] = CRTVARS
 
@@ -537,6 +581,7 @@ def load_data_run(
     return_plotter=True,
     pi0scaling=0,
     USEBDT=True,
+    use_numi=False,
     loadpi0variables=False,
     loadtruthfilters=True,
     loadpi0filters=False,
@@ -927,6 +972,22 @@ def process_uproot_shower_variables(up, df):
     shr_moliere_avg_v = up.arrays(["shr_moliere_avg_v"])["shr_moliere_avg_v"]
     df["shr2_moliereavg"] = get_elm_from_vec_idx(shr_moliere_avg_v, shr2_id)
 
+    # df["flash_y_flash_matching"] = up.arrays(["flash_y_flash_matching"]["flash_y_flash_matching"])
+    # df["flash_ywidth_flash_matching"] = up.arrays(["flash_ywidth_flash_matching"]["flash_ywidth_flash_matching"])
+    # df["flash_z_flash_matching"] = up.arrays(["flash_z_flash_matching"]["flash_z_flash_matching"])
+    # df["flash_zwidth_flash_matching"] = up.arrays(["flash_zwidth_flash_matching"]["flash_zwidth_flash_matching"])
+    # df["nu_centerX"] = up.arrays(["nu_centerX"]["nu_centerX"])
+    # df["nu_centerY"] = up.arrays(["nu_centerY"]["nu_centerY"])
+    # df["nu_centerZ"] = up.arrays(["nu_centerZ"]["nu_centerZ"])
+    # df["flash_pe_flash_matching"] = up.arrays(["flash_pe_flash_matching"]["flash_pe_flash_matching"])
+    # df["nu_totalCharge"] = up.arrays(["nu_totalCharge"]["nu_totalCharge"])
+
+    df["diffY"] = df["nu_centerY"] - df["flash_y_flash_matching"]
+    df["normdiffY"] = (df["nu_centerY"] - df["flash_y_flash_matching"]) / df["flash_ywidth_flash_matching"]
+    df["diffZ"] = df["nu_centerZ"] - df["flash_z_flash_matching"]
+    df["normdiffZ"] = (df["nu_centerZ"] - df["flash_z_flash_matching"]) / df["flash_zwidth_flash_matching"]
+    df["fnl"] = 270.0*np.log((df["nu_centerX"] + df["nu_centerY"] + df["nu_centerZ"])/(df["flash_y_flash_matching"] + df["flash_z_flash_matching"])) - df["nu_centerX"]
+
     return
 
 
@@ -960,6 +1021,68 @@ def post_process_shower_vars(up, df):
     df["anglediff_Y"] = np.abs(df["secondshower_Y_dir"] - df["shrclusdir2"])
     df["anglediff_V"] = np.abs(df["secondshower_V_dir"] - df["shrclusdir1"])
     df["anglediff_U"] = np.abs(df["secondshower_U_dir"] - df["shrclusdir0"])
+
+    df['secondshr_veto_U_10'] = np.where((df['secondshower_U_nhit']<8)|(df['anglediff_U']<10), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_V_10'] = np.where((df['secondshower_V_nhit']<8)|(df['anglediff_V']<10), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_Y_10'] = np.where((df['secondshower_Y_nhit']<8)|(df['anglediff_Y']<10), 1, 0) # assigning 1 if event passes condition
+
+    df['secondshr_veto_tot_10'] = df['secondshr_veto_U_10'] + df['secondshr_veto_V_10'] + df['secondshr_veto_Y_10']
+
+    df['secondshr_veto_U_15'] = np.where((df['secondshower_U_nhit']<8)|(df['anglediff_U']<15), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_V_15'] = np.where((df['secondshower_V_nhit']<8)|(df['anglediff_V']<15), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_Y_15'] = np.where((df['secondshower_Y_nhit']<8)|(df['anglediff_Y']<15), 1, 0) # assigning 1 if event passes condition
+
+    df['secondshr_veto_tot_15'] = df['secondshr_veto_U_15'] + df['secondshr_veto_V_15'] + df['secondshr_veto_Y_15']
+
+    df['secondshr_veto_U'] = np.where((df['secondshower_U_nhit']<8)|(df['anglediff_U']<20), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_V'] = np.where((df['secondshower_V_nhit']<8)|(df['anglediff_V']<20), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_Y'] = np.where((df['secondshower_Y_nhit']<8)|(df['anglediff_Y']<20), 1, 0) # assigning 1 if event passes condition
+
+    df['secondshr_veto_tot'] = df['secondshr_veto_U'] + df['secondshr_veto_V'] + df['secondshr_veto_Y']
+
+    # df['secondshr_veto_tot']>1
+
+    df['secondshr_veto_U_ext_60'] = np.where((df['secondshower_U_nhit']<8)|(df['anglediff_U']<15)|(df['secondshower_U_vtxdist']>60), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_V_ext_60'] = np.where((df['secondshower_V_nhit']<8)|(df['anglediff_V']<15)|(df['secondshower_V_vtxdist']>60), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_Y_ext_60'] = np.where((df['secondshower_Y_nhit']<8)|(df['anglediff_Y']<15)|(df['secondshower_Y_vtxdist']>60), 1, 0) # assigning 1 if event passes condition
+
+    df['secondshr_veto_tot_ext_60'] = df['secondshr_veto_U_ext_60'] + df['secondshr_veto_V_ext_60'] + df['secondshr_veto_Y_ext_60']
+
+    df['secondshr_veto_U_ext_40'] = np.where((df['secondshower_U_nhit']<8)|(df['anglediff_U']<15)|(df['secondshower_U_vtxdist']>40), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_V_ext_40'] = np.where((df['secondshower_V_nhit']<8)|(df['anglediff_V']<15)|(df['secondshower_V_vtxdist']>40), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_Y_ext_40'] = np.where((df['secondshower_Y_nhit']<8)|(df['anglediff_Y']<15)|(df['secondshower_Y_vtxdist']>40), 1, 0) # assigning 1 if event passes condition
+
+    df['secondshr_veto_tot_ext_40'] = df['secondshr_veto_U_ext_40'] + df['secondshr_veto_V_ext_40'] + df['secondshr_veto_Y_ext_40']
+
+    df['secondshr_veto_U_ext_30'] = np.where((df['secondshower_U_nhit']<8)|(df['anglediff_U']<15)|(df['secondshower_U_vtxdist']>30), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_V_ext_30'] = np.where((df['secondshower_V_nhit']<8)|(df['anglediff_V']<15)|(df['secondshower_V_vtxdist']>30), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_Y_ext_30'] = np.where((df['secondshower_Y_nhit']<8)|(df['anglediff_Y']<15)|(df['secondshower_Y_vtxdist']>30), 1, 0) # assigning 1 if event passes condition
+
+    df['secondshr_veto_tot_ext_30'] = df['secondshr_veto_U_ext_30'] + df['secondshr_veto_V_ext_30'] + df['secondshr_veto_Y_ext_30']
+
+    df['secondshr_veto_U_ext_70'] = np.where((df['secondshower_U_nhit']<8)|(df['anglediff_U']<15)|(df['secondshower_U_vtxdist']>70), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_V_ext_70'] = np.where((df['secondshower_V_nhit']<8)|(df['anglediff_V']<15)|(df['secondshower_V_vtxdist']>70), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_Y_ext_70'] = np.where((df['secondshower_Y_nhit']<8)|(df['anglediff_Y']<15)|(df['secondshower_Y_vtxdist']>70), 1, 0) # assigning 1 if event passes condition
+
+    df['secondshr_veto_tot_ext_70'] = df['secondshr_veto_U_ext_70'] + df['secondshr_veto_V_ext_70'] + df['secondshr_veto_Y_ext_70']
+
+    df['secondshr_veto_U_ext_80'] = np.where((df['secondshower_U_nhit']<8)|(df['anglediff_U']<15)|(df['secondshower_U_vtxdist']>80), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_V_ext_80'] = np.where((df['secondshower_V_nhit']<8)|(df['anglediff_V']<15)|(df['secondshower_V_vtxdist']>80), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_Y_ext_80'] = np.where((df['secondshower_Y_nhit']<8)|(df['anglediff_Y']<15)|(df['secondshower_Y_vtxdist']>80), 1, 0) # assigning 1 if event passes condition
+
+    df['secondshr_veto_tot_ext_80'] = df['secondshr_veto_U_ext_80'] + df['secondshr_veto_V_ext_80'] + df['secondshr_veto_Y_ext_80']
+
+    df['secondshr_veto_U_ext_90'] = np.where((df['secondshower_U_nhit']<8)|(df['anglediff_U']<15)|(df['secondshower_U_vtxdist']>90), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_V_ext_90'] = np.where((df['secondshower_V_nhit']<8)|(df['anglediff_V']<15)|(df['secondshower_V_vtxdist']>90), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_Y_ext_90'] = np.where((df['secondshower_Y_nhit']<8)|(df['anglediff_Y']<15)|(df['secondshower_Y_vtxdist']>90), 1, 0) # assigning 1 if event passes condition
+
+    df['secondshr_veto_tot_ext_90'] = df['secondshr_veto_U_ext_90'] + df['secondshr_veto_V_ext_90'] + df['secondshr_veto_Y_ext_90']
+
+    df['secondshr_veto_U_ext_tight'] = np.where((df['secondshower_U_nhit']<6)|(df['anglediff_U']<15)|(df['secondshower_U_vtxdist']>70), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_V_ext_tight'] = np.where((df['secondshower_V_nhit']<6)|(df['anglediff_V']<15)|(df['secondshower_V_vtxdist']>70), 1, 0) # assigning 1 if event passes condition
+    df['secondshr_veto_Y_ext_tight'] = np.where((df['secondshower_Y_nhit']<6)|(df['anglediff_Y']<15)|(df['secondshower_Y_vtxdist']>70), 1, 0) # assigning 1 if event passes condition
+
+    df['secondshr_veto_tot_ext_tight'] = df['secondshr_veto_U_ext_tight'] + df['secondshr_veto_V_ext_tight'] + df['secondshr_veto_Y_ext_tight']
 
     df["shr_tkfit_nhits_tot"] = df["shr_tkfit_nhits_Y"] + df["shr_tkfit_nhits_U"] + df["shr_tkfit_nhits_V"]
     # df['shr_tkfit_dedx_avg'] = (df['shr_tkfit_nhits_Y']*df['shr_tkfit_dedx_Y'] + df['shr_tkfit_nhits_U']*df['shr_tkfit_dedx_U'] + df['shr_tkfit_nhits_V']*df['shr_tkfit_dedx_V'])/df['shr_tkfit_nhits_tot']
@@ -2017,6 +2140,14 @@ def get_pot_trig(run_number, category, dataset,variation=None):
         pot = float(pot)
     return pot, trig
 
+def signal_def(df):
+    if df["category"] == 10:
+        return True
+    if df["category"] == 11:
+        return True
+    else:
+        return False
+
 
 @cache_dataframe
 def load_sample(
@@ -2032,6 +2163,7 @@ def load_sample(
     loadnumuvariables=False,
     use_lee_weights=False,
     use_bdt=True,
+    use_numi=False,
     pi0scaling=0,
     load_crt_vars=False,
     load_numu_tki=False,
@@ -2111,22 +2243,22 @@ def load_sample(
         df = up.arrays(variables, library="pd")
 
         SYSTVARS = ["weightsGenie", "weightsFlux", "weightsReint"]
-        if dataset not in ["ext", "bnb"]: # adding multi-universe weights as column of arrays in simulation dataframes
-            SYSTVARS_empty=[]
-            for column in SYSTVARS:
-                df_verse=up.arrays([column], library="pd")
-                if df_verse.empty:
-                    SYSTVARS_empty = SYSTVARS_empty+[column]
-            SYSTVARS_notempty = list(set(SYSTVARS) - set(SYSTVARS_empty))
-            df_multiverse=up.arrays(SYSTVARS_notempty, library="pd")
-            for column in SYSTVARS_empty:
-                df_multiverse[column] = 1000
+        # if dataset not in ["ext", "bnb"]: # adding multi-universe weights as column of arrays in simulation dataframes
+        #     SYSTVARS_empty=[]
+        #     for column in SYSTVARS:
+        #         df_verse=up.arrays([column], library="pd")
+        #         if df_verse.empty:
+        #             SYSTVARS_empty = SYSTVARS_empty+[column]
+        #     SYSTVARS_notempty = list(set(SYSTVARS) - set(SYSTVARS_empty))
+        #     df_multiverse=up.arrays(SYSTVARS_notempty, library="pd")
+        #     for column in SYSTVARS_empty:
+        #         df_multiverse[column] = 1000
 
-            columns_multiverse = df_multiverse.columns
-            agg_dict = {col: list for col in columns_multiverse}
-            df_multiverse = df_multiverse.groupby('entry').agg(agg_dict)
+        #     columns_multiverse = df_multiverse.columns
+        #     agg_dict = {col: list for col in columns_multiverse}
+        #     df_multiverse = df_multiverse.groupby('entry').agg(agg_dict)
 
-            df = pd.concat([df, df_multiverse], axis=1)
+        #     df = pd.concat([df, df_multiverse], axis=1)
 
         df["bnbdata"] = dataset in datasets 
         df["extdata"] = dataset == "ext"
@@ -2228,8 +2360,11 @@ def load_sample(
     if use_bdt:
         add_bdt_scores(df)
 
-    # Add the is_signal flag
-    df["is_signal"] = df["category"] == 11
+    df["is_signal"] = df.apply(signal_def, axis=1)
+
+    if use_numi:
+        add_nuebar(df)
+
     is_mc = category in ["runs", "numupresel"] and dataset not in datasets and dataset != "ext" 
     if is_mc:
         # The following adds MC weights and also the "flux" key.
@@ -2350,25 +2485,25 @@ def _load_run(
             mc_df["weights_no_tune_oldmodel"] *= mc_df["leeweight"]
             mc_df["weights_shwmodel"] *= mc_df["leeweight_shwmodel"]
             mc_df["weights_no_tune_shwmodel"] *= mc_df["leeweight_shwmodel"]
-        for ms_column in expected_multisim_universes:
-            multisim_weights = mc_df[ms_column].values
-            n_universes = len(multisim_weights[0])
-            # First, check that the number of universes is the same for every event
-            assert (
-                np.all([len(weights) == n_universes for weights in multisim_weights])
-            ), f"Multisim weights for {mc_set} have different numbers of universes"
-            if expected_multisim_universes[ms_column] is None:
-                expected_multisim_universes[ms_column] = n_universes
-            if n_universes != expected_multisim_universes[ms_column]:
-                if mc_set == "drt" and n_universes == 0:
-                    # For missing multisim universes, we replace them with a list of ones (stored as integer 1000) of the
-                    # correct length
-                    print(f"WARNING: {mc_set} has no {ms_column} universes, replacing with ones")
-                    mc_df[ms_column] = [[1000] * expected_multisim_universes[ms_column]] * len(mc_df)
-                else:
-                    raise ValueError(
-                        f"Multisim weights for {mc_set} have inconsistent or missing multisim universes for {ms_column}"
-                    )
+        # for ms_column in expected_multisim_universes:
+        #     multisim_weights = mc_df[ms_column].values
+        #     n_universes = len(multisim_weights[0])
+        #     # First, check that the number of universes is the same for every event
+        #     assert (
+        #         np.all([len(weights) == n_universes for weights in multisim_weights])
+        #     ), f"Multisim weights for {mc_set} have different numbers of universes"
+        #     if expected_multisim_universes[ms_column] is None:
+        #         expected_multisim_universes[ms_column] = n_universes
+        #     if n_universes != expected_multisim_universes[ms_column]:
+        #         if mc_set == "drt" and n_universes == 0:
+        #             # For missing multisim universes, we replace them with a list of ones (stored as integer 1000) of the
+        #             # correct length
+        #             print(f"WARNING: {mc_set} has no {ms_column} universes, replacing with ones")
+        #             mc_df[ms_column] = [[1000] * expected_multisim_universes[ms_column]] * len(mc_df)
+        #         else:
+        #             raise ValueError(
+        #                 f"Multisim weights for {mc_set} have inconsistent or missing multisim universes for {ms_column}"
+        #             )
         weights[mc_set] = data_pot / mc_pot
         output[mc_set] = mc_df
 
@@ -2644,39 +2779,354 @@ def update_proton_threshold(df, threshold):
     df.loc[(df["category"] == 11) & (df["proton_ke"] < threshold), "category"] = 10
     df.loc[(df["nproton"] > 0) & (df["proton_ke"] < threshold), "nproton"] = 0
 
+def add_nuebar(df):
+    df.loc[(df["nu_pdg"] == -12) & (df["category"] == 10), "category"] = 9
+
+# def merge_test_df(df):
+#     import localSettings as ls
+
+#     if df.key() == 'mc':
+#         dfcsv_nu = pd.read_csv(ls.ntuple_path + ls.BDT + "run4a_test_nu.csv")
+#         dfcsv_nu["identifier"] = df["run"] * 100000 + df["evt"]        # Why do we multiply by 100,000?
+#         df["identifier"] = df["run"] * 100000 + df["evt"]
+#         Npre = float(df.shape[0])
+#         df = pd.merge(df, dfcsv_nu, how="inner", on=["identifier"], suffixes=("", "_VAR"))
+#         Npost = float(df.shape[0])
+#         print("Fraction of Run4a nu overlay sample after split: %.02f" % (Npost / Npre))
+
+#     if df.key() == 'nue':
+#         dfcsv_nue = pd.read_csv(ls.ntuple_path + ls.BDT + "run4a_test_nue.csv")
+#         dfcsv_nue["identifier"] = df["run"] * 100000 + df["evt"]
+#         df["identifier"] = df["run"] * 100000 + df["evt"]
+#         Npre = float(df.shape[0])
+#         df = pd.merge(df, dfcsv_nue, how="inner", on=["identifier"], suffixes=("", "_VAR"))
+#         Npost = float(df.shape[0])
+#         print("Fraction of Run4a nue overlay sample after split: %.02f" % (Npost / Npre))
+
+#     if df.key() == 'dirt':
+#         dfcsv_dirt = pd.read_csv(ls.ntuple_path + ls.BDT + "run4a_test_dirt.csv")
+#         dfcsv_dirt["identifier"] = df["run"] * 100000 + df["evt"]
+#         df["identifier"] = df["run"] * 100000 + df["evt"]
+#         Npre = float(df.shape[0])
+#         df = pd.merge(df, dfcsv_dirt, how="inner", on=["identifier"], suffixes=("", "_VAR"))
+#         Npost = float(df.shape[0])
+#         print("Fraction of Run4a dirt overlay sample after split: %.02f" % (Npost / Npre))
+
+#     if df.key() == 'nc_pi0':
+#         dfcsv_ncpi0 = pd.read_csv(ls.ntuple_path + ls.BDT + "run4a_test_ncpi0.csv")
+#         dfcsv_ncpi0["identifier"] = df["run"] * 100000 + df["evt"]
+#         df["identifier"] = df["run"] * 100000 + df["evt"]
+#         Npre = float(df.shape[0])
+#         df = pd.merge(df, dfcsv_ncpi0, how="inner", on=["identifier"], suffixes=("", "_VAR"))
+#         Npost = float(df.shape[0])
+#         print("Fraction of Run4a NC pi0 overlay sample after split: %.02f" % (Npost / Npre))
+
+#     if df.key() == 'ext':
+#         dfcsv_ext = pd.read_csv(ls.ntuple_path + ls.BDT + "run4a_test_ext.csv")
+#         dfcsv_ext["identifier"] = df["run"] * 100000 + df["evt"]
+#         df["identifier"] = df["run"] * 100000 + df["evt"]
+#         Npre = float(df.shape[0])
+#         df = pd.merge(df, dfcsv_ext, how="inner", on=["identifier"], suffixes=("", "_VAR"))
+#         Npost = float(df.shape[0])
+#         print("Fraction of Run4a ext overlay sample after split: %.02f" % (Npost / Npre))
 
 def add_bdt_scores(df):
     import localSettings as ls
     import xgboost as xgb
     import nue_booster
 
+    # TRAINVAR = [
+    #     "shr_score",
+    #     "tksh_distance",
+    #     "tksh_angle",
+    #     "shr_tkfit_dedx_max",
+    #     "trkfit",
+    #     "trkpid",
+    #     "subcluster",
+    #     "shrmoliereavg",
+    #     "trkshrhitdist2",
+    #     "hits_ratio",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "anglediff_Y",
+    #     "CosmicIPAll3D",
+    #     "CosmicDirAll3D",
+    # ]
 
-    TRAINVAR = [
-        "shr_score",
-        "tksh_distance",
-        "tksh_angle",
-        "shr_tkfit_dedx_max",
-        "trkfit",
-        "trkpid",
-        "subcluster",
-        "shrmoliereavg",
-        "trkshrhitdist2",
-        "hits_ratio",
-        "secondshower_Y_nhit",
-        "secondshower_Y_vtxdist",
-        "secondshower_Y_dot",
-        "anglediff_Y",
-        "CosmicIPAll3D",
-        "CosmicDirAll3D",
-    ]
+    # LABELS = ["pi0", "nonpi0"]
+    # for label, bkg_query in zip(LABELS, nue_booster.bkg_queries):
+    #     with open(ls.pickle_path + "booster_%s_0304_extnumi.pickle" % label, "rb") as booster_file:
+    #         booster = pickle.load(booster_file)
+    #         df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVAR]), ntree_limit=booster.best_iteration)
 
-    LABELS = ["pi0", "nonpi0"]
-    for label, bkg_query in zip(LABELS, nue_booster.bkg_queries):
-        with open(ls.pickle_path + "booster_%s_0304_extnumi.pickle" % label, "rb") as booster_file:
-            booster = pickle.load(booster_file)
-            df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVAR]), ntree_limit=booster.best_iteration)
+    # # 0p BDT
 
-    # 0p BDT
+    # TRAINVARZP = [
+    #     "shrmoliereavg",
+    #     "shr_score",
+    #     "trkfit",
+    #     "subcluster",
+    #     "CosmicIPAll3D",
+    #     "CosmicDirAll3D",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "anglediff_Y",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_vtxdist",
+    #     "secondshower_V_dot",
+    #     "anglediff_V",
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_vtxdist",
+    #     "secondshower_U_dot",
+    #     "anglediff_U",
+    #     "shr_tkfit_2cm_dedx_U",
+    #     "shr_tkfit_2cm_dedx_V",
+    #     "shr_tkfit_2cm_dedx_Y",
+    #     "shr_tkfit_gap10_dedx_U",
+    #     "shr_tkfit_gap10_dedx_V",
+    #     "shr_tkfit_gap10_dedx_Y",
+    #     "shrMCSMom",
+    #     "DeltaRMS2h",
+    #     "shrPCA1CMed_5cm",
+    #     "CylFrac2h_1cm",
+    # ]
+
+    # LABELSZP = ["bkg"]
+
+    # for label, bkg_query in zip(LABELSZP, nue_booster.bkg_queries):
+    #     with open(ls.pickle_path + "booster_%s_0304_extnumi_vx.pickle" % label, "rb") as booster_file:
+    #         booster = pickle.load(booster_file)
+    #         df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
+
+    # Second shower variables
+    # TRAINVARZP = [
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_vtxdist",
+    #     "secondshower_U_dot",
+    #     "secondshower_U_dir",
+    #     "anglediff_U",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_vtxdist",
+    #     "secondshower_V_dot",
+    #     "secondshower_V_dir",
+    #     "anglediff_V",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "secondshower_Y_dir",
+    #     "anglediff_Y",
+    # ]
+
+    # Pi0 dE/dx variables
+    # TRAINVARZP = [
+    #     "shr_tkfit_2cm_dedx_Y",
+    #     "shr_tkfit_2cm_dedx_U",
+    #     "shr_tkfit_2cm_dedx_V",
+    #     "shr_tkfit_gap10_dedx_Y",
+    #     "shr_tkfit_gap10_dedx_U",
+    #     "shr_tkfit_gap10_dedx_V",
+    #     "shr_tkfit_dedx_max",
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_vtxdist",
+    #     "secondshower_U_dot",
+    #     "secondshower_U_dir",
+    #     "anglediff_U",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_vtxdist",
+    #     "secondshower_V_dot",
+    #     "secondshower_V_dir",
+    #     "anglediff_V",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "secondshower_Y_dir",
+    #     "anglediff_Y",
+    # ]
+
+    # TRAINVARZP = [
+    #     "shrmoliereavg",
+    #     "shr_score",
+    #     "trkfit",
+    #     "subcluster",
+    #     "CosmicIPAll3D",
+    #     "CosmicDirAll3D",
+    #     "shrMCSMom",
+    #     "DeltaRMS2h",
+    #     "shrPCA1CMed_5cm",
+    #     "CylFrac2h_1cm",    
+    #     "shr_tkfit_2cm_dedx_Y",
+    #     "shr_tkfit_2cm_dedx_U",
+    #     "shr_tkfit_2cm_dedx_V",
+    #     "shr_tkfit_gap10_dedx_Y",
+    #     "shr_tkfit_gap10_dedx_U",
+    #     "shr_tkfit_gap10_dedx_V",
+    #     "shr_tkfit_dedx_max",
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_vtxdist",
+    #     "secondshower_U_dot",
+    #     "secondshower_U_dir",
+    #     "anglediff_U",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_vtxdist",
+    #     "secondshower_V_dot",
+    #     "secondshower_V_dir",
+    #     "anglediff_V",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "secondshower_Y_dir",
+    #     "anglediff_Y",
+    # ]
+
+    # TRAINVARZP = [
+    #     "shrmoliereavg",
+    #     "shr_score",
+    #     "trkfit",
+    #     "subcluster",
+    #     "CosmicIPAll3D",
+    #     "CosmicDirAll3D",
+    #     "shrMCSMom",
+    #     "DeltaRMS2h",
+    #     "shrPCA1CMed_5cm",
+    #     "CylFrac2h_1cm",
+    #     "diffY",
+    #     "normdiffY",
+    #     "diffZ",
+    #     "normdiffZ",
+    #     "fnl",
+    #     "shr_tkfit_2cm_dedx_Y",
+    #     "shr_tkfit_2cm_dedx_U",
+    #     "shr_tkfit_2cm_dedx_V",
+    #     "shr_tkfit_gap10_dedx_Y",
+    #     "shr_tkfit_gap10_dedx_U",
+    #     "shr_tkfit_gap10_dedx_V",
+    #     "shr_tkfit_dedx_max",
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_vtxdist",
+    #     "secondshower_U_dot",
+    #     "secondshower_U_dir",
+    #     "anglediff_U",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_vtxdist",
+    #     "secondshower_V_dot",
+    #     "secondshower_V_dir",
+    #     "anglediff_V",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "secondshower_Y_dir",
+    #     "anglediff_Y",
+    # ]
+
+    # TRAINVARZP = [
+    #     "shrmoliereavg",
+    #     "shr_score",
+    #     "trkfit",
+    #     "subcluster",
+    #     "CosmicIPAll3D",
+    #     "CosmicDirAll3D",
+    #     "shrMCSMom",
+    #     "DeltaRMS2h",
+    #     "shrPCA1CMed_5cm",
+    #     "CylFrac2h_1cm",
+    #     "diffY",
+    #     "normdiffY",
+    #     "diffZ",
+    #     "normdiffZ",
+    #     "fnl",
+    #     "shr_tkfit_2cm_dedx_Y",
+    #     "shr_tkfit_2cm_dedx_U",
+    #     "shr_tkfit_2cm_dedx_V",
+    #     "shr_tkfit_gap10_dedx_Y",
+    #     "shr_tkfit_gap10_dedx_U",
+    #     "shr_tkfit_gap10_dedx_V",
+    #     "shr_tkfit_dedx_max",
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_vtxdist",
+    #     "secondshower_U_dot",
+    #     "secondshower_U_dir",
+    #     "anglediff_U",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_vtxdist",
+    #     "secondshower_V_dot",
+    #     "secondshower_V_dir",
+    #     "anglediff_V",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "secondshower_Y_dir",
+    #     "anglediff_Y",
+    #     "slcng2mip",
+    #     "slcng2hip",
+    #     "slcng2shr",
+    #     "slcng2mcl",
+    #     "slcng2dfs",
+    #     "slcng2bkg",
+    #     "clung2mip",
+    #     "clung2hip",
+    #     "clung2shr",
+    #     "clung2mcl",
+    #     "clung2dfs",
+    #     "clung2bkg",
+    #     "nhits_r1cm",
+    #     "nhits_r3cm",
+    #     "nhits_r5cm",
+    #     "nhits_r10cm",
+    # ]
+
+    # TRAINVARZP = [
+    #     "shrmoliereavg",
+    #     "shr_score",
+    #     "trkfit",
+    #     "subcluster",
+    #     "CosmicIPAll3D",
+    #     "CosmicDirAll3D",
+    #     "shrMCSMom",
+    #     "DeltaRMS2h",
+    #     "shrPCA1CMed_5cm",
+    #     "CylFrac2h_1cm",    
+    #     "shr_tkfit_2cm_dedx_Y",
+    #     "shr_tkfit_2cm_dedx_U",
+    #     "shr_tkfit_2cm_dedx_V",
+    #     "shr_tkfit_gap10_dedx_Y",
+    #     "shr_tkfit_gap10_dedx_U",
+    #     "shr_tkfit_gap10_dedx_V",
+    #     "shr_tkfit_dedx_max",
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_vtxdist",
+    #     "secondshower_U_dot",
+    #     "secondshower_U_dir",
+    #     "anglediff_U",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_vtxdist",
+    #     "secondshower_V_dot",
+    #     "secondshower_V_dir",
+    #     "anglediff_V",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "secondshower_Y_dir",
+    #     "anglediff_Y",
+    #     "slcng2mip",
+    #     "slcng2hip",
+    #     "slcng2shr",
+    #     "slcng2mcl",
+    #     "slcng2dfs",
+    #     "slcng2bkg",
+    #     "clung2mip",
+    #     "clung2hip",
+    #     "clung2shr",
+    #     "clung2mcl",
+    #     "clung2dfs",
+    #     "clung2bkg",
+    #     "nhits_r1cm",
+    #     "nhits_r3cm",
+    #     "nhits_r5cm",
+    #     "nhits_r10cm",
+    #     "diffY","normdiffY","diffZ","normdiffZ","fnl",
+    # ]
 
     TRAINVARZP = [
         "shrmoliereavg",
@@ -2685,37 +3135,120 @@ def add_bdt_scores(df):
         "subcluster",
         "CosmicIPAll3D",
         "CosmicDirAll3D",
-        "secondshower_Y_nhit",
-        "secondshower_Y_vtxdist",
-        "secondshower_Y_dot",
-        "anglediff_Y",
-        "secondshower_V_nhit",
-        "secondshower_V_vtxdist",
-        "secondshower_V_dot",
-        "anglediff_V",
-        "secondshower_U_nhit",
-        "secondshower_U_vtxdist",
-        "secondshower_U_dot",
-        "anglediff_U",
-        "shr_tkfit_2cm_dedx_U",
-        "shr_tkfit_2cm_dedx_V",
-        "shr_tkfit_2cm_dedx_Y",
-        "shr_tkfit_gap10_dedx_U",
-        "shr_tkfit_gap10_dedx_V",
-        "shr_tkfit_gap10_dedx_Y",
         "shrMCSMom",
         "DeltaRMS2h",
         "shrPCA1CMed_5cm",
-        "CylFrac2h_1cm",
+        "CylFrac2h_1cm",    
+        "shr_tkfit_2cm_dedx_Y",
+        "shr_tkfit_2cm_dedx_U",
+        "shr_tkfit_2cm_dedx_V",
+        "shr_tkfit_gap10_dedx_Y",
+        "shr_tkfit_gap10_dedx_U",
+        "shr_tkfit_gap10_dedx_V",
+        # "shr_tkfit_dedx_U",
+        # "shr_tkfit_dedx_V",
+        # "shr_tkfit_dedx_Y",
+        "shr_tkfit_dedx_max",
+        "secondshower_U_nhit",
+        "secondshower_U_vtxdist",
+        "secondshower_U_dot",
+        "secondshower_U_dir",
+        "anglediff_U",
+        "secondshower_V_nhit",
+        "secondshower_V_vtxdist",
+        "secondshower_V_dot",
+        "secondshower_V_dir",
+        "anglediff_V",
+        "secondshower_Y_nhit",
+        "secondshower_Y_vtxdist",
+        "secondshower_Y_dot",
+        "secondshower_Y_dir",
+        "anglediff_Y",
+        "slcng2mip",
+        "slcng2hip",
+        "slcng2shr",
+        "slcng2mcl",
+        "slcng2dfs",
+        "slcng2bkg",
+        "clung2mip",
+        "clung2hip",
+        "clung2shr",
+        "clung2mcl",
+        "clung2dfs",
+        "clung2bkg",
+        "nhits_r1cm",
+        "nhits_r3cm",
+        "nhits_r5cm",
+        "nhits_r10cm",
+        "diffY","normdiffY","diffZ","normdiffZ","fnl",
     ]
 
-    LABELSZP = ["bkg"]
+    # TRAINVARNP = [
+    #     "shr_score",
+    #     "tksh_distance",
+    #     "tksh_angle",
+    #     "shr_tkfit_2cm_dedx_Y",
+    #     "shr_tkfit_2cm_dedx_U",
+    #     "shr_tkfit_2cm_dedx_V",
+    #     "shr_tkfit_gap10_dedx_Y",
+    #     "shr_tkfit_gap10_dedx_U",
+    #     "shr_tkfit_gap10_dedx_V",
+    #     "shr_tkfit_dedx_max",
+    #     "trkfit",
+    #     "trkpid",
+    #     "subcluster",
+    #     "shrmoliereavg",
+    #     "trkshrhitdist2",
+    #     "hits_ratio",
+    #     "CosmicIPAll3D",
+    #     "CosmicDirAll3D",
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_vtxdist",
+    #     "secondshower_U_dot",
+    #     "secondshower_U_dir",
+    #     "anglediff_U",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_vtxdist",
+    #     "secondshower_V_dot",
+    #     "secondshower_V_dir",
+    #     "anglediff_V",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "secondshower_Y_dir",
+    #     "anglediff_Y",
+    #     "slcng2mip",
+    #     "slcng2hip",
+    #     "slcng2shr",
+    #     "slcng2mcl",
+    #     "slcng2dfs",
+    #     "slcng2bkg",
+    #     "clung2mip",
+    #     "clung2hip",
+    #     "clung2shr",
+    #     "clung2mcl",
+    #     "clung2dfs",
+    #     "clung2bkg",
+    #     "nhits_r1cm",
+    #     "nhits_r3cm",
+    #     "nhits_r5cm",
+    #     "nhits_r10cm",
+    #     "diffY","normdiffY","diffZ","normdiffZ","fnl",
+    # ]
+
+    LABELSZP = ["bkg", "pi0", "nonpi0"]
 
     for label, bkg_query in zip(LABELSZP, nue_booster.bkg_queries):
-        with open(ls.pickle_path + "booster_%s_0304_extnumi_vx.pickle" % label, "rb") as booster_file:
+        with open(ls.pickle_path + "booster_%s_45_1011_0pnewloosesel_inclusiveNGslice.pickle" % label, "rb") as booster_file:
             booster = pickle.load(booster_file)
             df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
 
+    # LABELSZPNP = ["bkg", "pi0", "nonpi0"]
+
+    # for label, bkg_query in zip(LABELSZPNP, nue_booster.bkg_queries):
+    #     with open(ls.pickle_path + "booster_%s_45_11_0pnewloosesel_Npsignaltarget.pickle" % label, "rb") as booster_file:
+    #         booster = pickle.load(booster_file)
+    #         df[label + "_Np_score"] = booster.predict(xgb.DMatrix(df[TRAINVARNP]), ntree_limit=booster.best_iteration)
 
 def add_mc_weight_variables(df, pi0scaling=0):
     # add MCC8-style weights

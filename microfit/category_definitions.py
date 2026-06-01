@@ -84,6 +84,7 @@ paper_labels_xsec = {
 
 category_labels = {
     1: r"$\nu_e$ CC",
+    9: r"$\overline{\nu_e}$  CC",
     10: r"$\nu_e$ CC0$\pi$0p",
     11: r"$\nu_e$ CC0$\pi$Np",
     2: r"$\nu_{\mu}$ CC",
@@ -237,7 +238,8 @@ category_colors = {
     3: "xkcd:cobalt",
     31: "xkcd:sky blue",
     1: "xkcd:green",
-    10: "xkcd:mint green",
+    9:"xkcd:lilac",   # Add nue-bar category color
+    10: "xkcd:hot pink",   # Change 1e0p CC nue
     11: "xkcd:lime green",
     12: "xkcd:soft green",
     13: "xkcd:bright lime",
