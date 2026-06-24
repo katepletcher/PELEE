@@ -20,20 +20,30 @@ import shap
 
 import localSettings as ls
 
-labels = ["bkg", "pi0", "nonpi0"]
-# labels = ["np"]
+# labels = ["bkg", "pi0", "nonpi0"]
+# labels = ["bkg", "pi0", "nonpi0","np"]
+labels = ["np"]
 # labels = ["np", "bkg"]
 
-titles = [r"bkg", r"$\pi^{0}$", "non-$\pi^{0}$"]
-# titles = [r"1eNp0$\pi$"]
+# titles = [r"bkg", r"$\pi^{0}$", "non-$\pi^{0}$"]
+# titles = [r"bkg", r"$\pi^{0}$", "non-$\pi^{0}$", r"1eNp0$\pi$"]
+titles = [r"1eNp0$\pi$"]
 # titles = [r"Np"]
 # titles = [r"1eNp", r"bkg"]
 
-bkg_queries = ["category!=10 and category!=11",
-               "category!=10 and category!=11 and npi0>0",
-               "category!=10 and category!=11 and npi0==0"]
+# bkg_queries = ["category!=10 and category!=11",
+#                "category!=10 and category!=11 and npi0>0",
+#                "category!=10 and category!=11 and npi0==0"]
+
+bkg_queries = ["category!=10"]
+
+# bkg_queries = ["category!=10",
+#                "category!=10 and npi0>0",
+#                "category!=10 and npi0==0",
+#                "category==11"]
 
 # bkg_queries = ["category!= 10 and category==11"]
+# bkg_queries = ["category!=10"]
 
 # bkg_queries = ["category!=10",
 #                "category!=10 and npi0>0",
@@ -327,18 +337,26 @@ class NueBooster:
             bkg_query = "&" + bkg_query
             print(bkg_query)
 
-        test_nue  = self.samples["nue"][1].query("%s & (category == 10 | category == 11)"%self.preselection, engine='python')[self.variables]
-        train_nue = self.samples["nue"][0].query("%s & (category == 10 | category == 11)"%self.preselection, engine='python')[self.variables]
-        # test_nue  = self.samples["nue"][1].query("%s & (category == 10)"%self.preselection, engine='python')[self.variables]
-        # train_nue = self.samples["nue"][0].query("%s & (category == 10)"%self.preselection, engine='python')[self.variables]
-        # test_nue  = self.samples["nue"][1].query("%s & (category == 10)"%self.preselection, engine='python')[self.variables]
-        # train_nue = self.samples["nue"][0].query("%s & (category == 10)"%self.preselection, engine='python')[self.variables]
-
         test_mc = self.samples["mc"][1].query(self.preselection + bkg_query, engine='python')[self.variables]
         train_mc = self.samples["mc"][0].query(self.preselection + bkg_query, engine='python')[self.variables]
+        
+        if "nue" in self.samples:
+            test_nue  = self.samples["nue"][1].query("%s & (category == 10 | category == 11)"%self.preselection, engine='python')[self.variables]
+            train_nue = self.samples["nue"][0].query("%s & (category == 10 | category == 11)"%self.preselection, engine='python')[self.variables]
+            train = pd.concat([train_nue, train_mc])
+            test = pd.concat([test_nue, test_mc])
 
-        train = pd.concat([train_nue, train_mc])
-        test = pd.concat([test_nue, test_mc])
+        if "nue_signal" in self.samples:
+            test_signal_nue = self.samples["nue_signal"][1].query("%s & (category == 10)"%self.preselection, engine='python')[self.variables]
+            train_signal_nue = self.samples["nue_signal"][1].query("%s & (category == 10)"%self.preselection, engine='python')[self.variables]
+            train = pd.concat([train_signal_nue, train_mc])
+            test = pd.concat([test_signal_nue, test_mc])
+
+        if "nue_bkg" in self.samples:
+            test_bkg_nue = self.samples["nue_bkg"][1].query(self.preselection + bkg_query, engine='python')[self.variables]
+            train_bkg_nue = self.samples["nue_bkg"][0].query(self.preselection + bkg_query, engine='python')[self.variables]
+            train = pd.concat([train, train_bkg_nue])
+            test = pd.concat([test, test_bkg_nue])
 
         if "ncpi0" in self.samples:
             test_ncpi0 = self.samples["ncpi0"][1].query(self.preselection + bkg_query, engine='python')[self.variables]

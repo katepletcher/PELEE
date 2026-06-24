@@ -584,6 +584,7 @@ def load_data_run(
     use_numi=False,
     loadpi0variables=False,
     loadtruthfilters=True,
+    use_truth_filters=True,
     loadpi0filters=False,
     loadfakedata=0,
     loadshowervariables=True,
@@ -2164,6 +2165,7 @@ def load_sample(
     use_lee_weights=False,
     use_bdt=True,
     use_numi=False,
+    use_truth_filters=True,
     pi0scaling=0,
     load_crt_vars=False,
     load_numu_tki=False,
@@ -2401,11 +2403,12 @@ def load_sample(
 def _load_run(
     run_number,
     data="bnb",
-    truth_filtered_sets=["nue", "drt"],
+    truth_filtered_sets=["nue", "drt", "nc_pi0"],
     blinded=True,
     load_lee=False,
     use_new_signal_model=False,
     numupresel=False,
+    use_truth_filters=True,
     **load_sample_kwargs,
 ):
 
@@ -2507,15 +2510,16 @@ def _load_run(
         weights[mc_set] = data_pot / mc_pot
         output[mc_set] = mc_df
 
-    # Remove the truth filtered events from "mc" to avoid double-counting
-    for truth_set in truth_filtered_sets:
-        if truth_set == "drt":
-            continue
-        else:
-            # The filters are all the same, so we just take them from run 1 here
-            rundict = get_rundict(run_number, category)
-            df_temp = output["mc"].query(rundict[truth_set]["filter"], engine="python")
-            output["mc"].drop(index=df_temp.index, inplace=True)
+    if use_truth_filters:
+        # Remove the truth filtered events from "mc" to avoid double-counting
+        for truth_set in truth_filtered_sets:
+            if truth_set == "drt":
+                continue
+            else:
+                # The filters are all the same, so we just take them from run 1 here
+                rundict = get_rundict(run_number, category)
+                df_temp = output["mc"].query(rundict[truth_set]["filter"], engine="python")
+                output["mc"].drop(index=df_temp.index, inplace=True)
 
     # If using one of the sideband datasets, apply the same query to the MC as well
     datadict = get_rundict(run_number,category)[data] 
@@ -2780,7 +2784,14 @@ def update_proton_threshold(df, threshold):
     df.loc[(df["nproton"] > 0) & (df["proton_ke"] < threshold), "nproton"] = 0
 
 def add_nuebar(df):
+    # If nu_pdg == -12 and category == 10, make new category number (9) for 1e0p nue-bar events
     df.loc[(df["nu_pdg"] == -12) & (df["category"] == 10), "category"] = 9
+    # If nu_pdg == -12 and category == 11, make new category number (12) for 1eNp nue-bar events
+    df.loc[(df["nu_pdg"] == -12) & (df["category"] == 11), "category"] = 12
+    # If nu_pdg == -12 and category == 1, make new category number (7) for CC nue-bar events
+    df.loc[(df["nu_pdg"] == -12) & (df["category"] == 1), "category"] = 7
+    # If nu_pdg == -12 and category == 5, make new category number (8) for nue-bar out of fiducial volume events
+    df.loc[(df["nu_pdg"] == -12) & (df["category"] == 5), "category"] = 8
 
 # def merge_test_df(df):
 #     import localSettings as ls
@@ -3145,9 +3156,6 @@ def add_bdt_scores(df):
         "shr_tkfit_gap10_dedx_Y",
         "shr_tkfit_gap10_dedx_U",
         "shr_tkfit_gap10_dedx_V",
-        # "shr_tkfit_dedx_U",
-        # "shr_tkfit_dedx_V",
-        # "shr_tkfit_dedx_Y",
         "shr_tkfit_dedx_max",
         "secondshower_U_nhit",
         "secondshower_U_vtxdist",
@@ -3239,16 +3247,23 @@ def add_bdt_scores(df):
     LABELSZP = ["bkg", "pi0", "nonpi0"]
 
     for label, bkg_query in zip(LABELSZP, nue_booster.bkg_queries):
-        with open(ls.pickle_path + "booster_%s_45_1011_0pnewloosesel_inclusiveNGslice.pickle" % label, "rb") as booster_file:
+        with open(ls.pickle_path + "booster_%s_45_1011_0pnewloosesel_query50split.pickle" % label, "rb") as booster_file:
             booster = pickle.load(booster_file)
             df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
 
-    # LABELSZPNP = ["bkg", "pi0", "nonpi0"]
+    # LABELSZP = ["bkg", "pi0", "nonpi0", "np"]
 
-    # for label, bkg_query in zip(LABELSZPNP, nue_booster.bkg_queries):
-    #     with open(ls.pickle_path + "booster_%s_45_11_0pnewloosesel_Npsignaltarget.pickle" % label, "rb") as booster_file:
-    #         booster = pickle.load(booster_file)
-    #         df[label + "_Np_score"] = booster.predict(xgb.DMatrix(df[TRAINVARNP]), ntree_limit=booster.best_iteration)
+    # for label, bkg_query in zip(LABELSZP, nue_booster.bkg_queries):
+        # with open(ls.pickle_path + "booster_%s_45_10_0pnewloosesel_mcnuequery.pickle" % label, "rb") as booster_file:
+        #     booster = pickle.load(booster_file)
+        #     df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
+
+    LABELSZPNP = ["np"]
+
+    for label, bkg_query in zip(LABELSZPNP, nue_booster.bkg_queries):
+        with open(ls.pickle_path + "booster_%s_45_1011_0pnewloosesel_stackedNpBkg.pickle" % label, "rb") as booster_file:
+            booster = pickle.load(booster_file)
+            df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
 
 def add_mc_weight_variables(df, pi0scaling=0):
     # add MCC8-style weights

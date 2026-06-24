@@ -84,9 +84,11 @@ paper_labels_xsec = {
 
 category_labels = {
     1: r"$\nu_e$ CC",
-    9: r"$\overline{\nu_e}$  CC",
+    7: r"$\overline{\nu_e}$  CC",
+    9: r"$\overline{\nu_e}$  CC0$\pi$0p",
     10: r"$\nu_e$ CC0$\pi$0p",
     11: r"$\nu_e$ CC0$\pi$Np",
+    12: r"$\overline{\nu_e}$  CC0$\pi$Np",
     2: r"$\nu_{\mu}$ CC",
     222: r"$\nu_{\mu}$ CC w/ Michel",
     21: r"$\nu_{\mu}$ CC $\pi^{0}$",
@@ -97,7 +99,8 @@ category_labels = {
     3: r"$\nu$ NC",
     31: r"$\nu$ NC $\pi^{0}$",
     4: r"Cosmic",
-    5: r"Out. fid. vol.",
+    5: r"$\nu_e$ Out. fid. vol.",
+    8: r"$\overline{\nu_e}$  Out. fid. vol.",
     # eta categories start with 80XX
     801: r"$\eta \rightarrow$ other",
     802: r"$\nu_{\mu} \eta \rightarrow \gamma\gamma$",
@@ -227,7 +230,8 @@ int_colors = {
 category_colors = {
     4: "xkcd:light red",
     5: "xkcd:brick",
-    8: "xkcd:cerulean",
+    8: "xkcd:brown",         # Add nue-bar out of fiducial volume category color
+    # 8: "xkcd:cerulean",
     2: "xkcd:cyan",
     21: "xkcd:cerulean",
     222: "pink",
@@ -238,10 +242,12 @@ category_colors = {
     3: "xkcd:cobalt",
     31: "xkcd:sky blue",
     1: "xkcd:green",
-    9:"xkcd:lilac",   # Add nue-bar category color
+    7: "xkcd:light purple",   # Add nue-bar CC category color
+    9:"xkcd:lilac",   # Add nue-bar 1e0p category color
     10: "xkcd:hot pink",   # Change 1e0p CC nue
     11: "xkcd:lime green",
-    12: "xkcd:soft green",
+    12: "xkcd:purple",      # Add nue-bar 1eNp category color
+    # 12: "xkcd:soft green",
     13: "xkcd:bright lime",
     111: "xkcd:goldenrod",
     6: "xkcd:grey",
