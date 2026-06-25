@@ -20,35 +20,11 @@ import shap
 
 import localSettings as ls
 
-labels = ["bkg", "pi0", "nonpi0"]
-# labels = ["bkg", "pi0", "nonpi0","np"]
-# labels = ["np"]
-# labels = ["np", "bkg"]
+labels = ["np"]
 
-titles = [r"bkg", r"$\pi^{0}$", "non-$\pi^{0}$"]
-# titles = [r"bkg", r"$\pi^{0}$", "non-$\pi^{0}$", r"1eNp0$\pi$"]
-# titles = [r"1eNp0$\pi$"]
-# titles = [r"Np"]
-# titles = [r"1eNp", r"bkg"]
+titles = [r"1eNp0$\pi$"]
 
-bkg_queries = ["category!=10 and category!=11",
-               "category!=10 and category!=11 and npi0>0",
-               "category!=10 and category!=11 and npi0==0"]
-
-# bkg_queries = ["category!=10"]
-
-# bkg_queries = ["category!=10",
-#                "category!=10 and npi0>0",
-#                "category!=10 and npi0==0",
-#                "category==11"]
-
-# bkg_queries = ["category!= 10 and category==11"]
-
-# bkg_queries = ["category!=10"]
-
-# bkg_queries = ["category!=10",
-#                "category!=10 and npi0>0",
-#                "category!=10 and npi0==0"]
+bkg_queries = ["category==11"]
 
 # update variables for training
 variables = [
