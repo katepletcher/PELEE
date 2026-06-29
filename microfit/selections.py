@@ -183,6 +183,25 @@ ZPPRESELCRT = ZPPRESEL
 # ZPPRESELCRT += ' and (crtveto != 1 or crthitpe < 100) and _closestNuCosmicDist > 5.'
 # ZPPRESELCRT += ' and (crtveto != 1 or crthitpe < 100)'
 ZPPRESELCRT += ' and crtveto != 1'
+# ZPPRESELCRT += ' and bkg_score > 0.8'
+# ZPPRESELCRT += ' and pi0_score > 0.8'
+# ZPPRESELCRT += ' and nonpi0_score > 0.9'
+
+# ZPPRESELCRT += ' and shrmoliereavg < 16'
+# # ZPPRESELCRT += ' and trkfit < 0.5'
+# # # ZPPRESELCRT += ' and secondshower_Y_nhit < 12'
+# ZPPRESELCRT += ' and shr_trk_sce_start_y > -100 and shr_trk_sce_start_y < 100'
+# ZPPRESELCRT += ' and shr_trk_len > 10'
+# # ZPPRESELCRT += ' and CylFrac2h_1cm < 0.5'
+# ZPPRESELCRT += ' and DeltaRMS2h < 18'
+# ZPPRESELCRT += ' and clung2hip < 20'
+# ZPPRESELCRT += ' and nhits_r5cm < 75'
+
+# ZPPRESELCRT += ' and CosmicIPAll3D > 6'
+# ZPPRESELCRT += ' and shrMCSMom > 25'
+
+# ZPPRESELCRT += ' and pi0_score > 0.875'
+
 # ZPPRESELCRT += ' and crthitpe < 100'
 # ZPPRESELCRT += ' and crthitpe < 70'
 # ZPPRESELCRT += ' and _closestNuCosmicDist > 5.'
@@ -240,10 +259,16 @@ ZPLOOSENEW += ' and diffZ > -70 and diffZ < 80'
 ZPLOOSENEW += ' and normdiffZ > -0.75 and normdiffZ < 0.75'
 ZPLOOSENEW += ' and fnl > -200 and fnl < 50'
 
-ZPLOOSENEW += ' and nonpi0_score > 0.6'
-ZPLOOSENEW += ' and pi0_score > 0.4'
-# ZPLOOSENEW += ' and bkg_score > 0.7'
-# ZPLOOSENEW += ' and np_score > 0.4'
+# ZPLOOSENEW += ' and nonpi0_score > 0.6'
+# ZPLOOSENEW += ' and pi0_score > 0.35'
+
+# ZPLOOSENEW += ' and nonpi0_score > 0.975'
+# ZPLOOSENEW += ' and pi0_score > 0.95'
+# ZPLOOSENEW += ' and bkg_score > 0.8'
+# ZPLOOSENEW += ' and np_score > 0.5'
+# Cuts for nue split training
+# ZPLOOSENEW += ' and clung2dfs > 10'
+# ZPLOOSENEW += ' and clung2shr > 300'
 
 # ZPLOOSENEW += ' and secondshower_V_nhit < 45'
 # ZPLOOSENEW += ' and diffZ < 70'

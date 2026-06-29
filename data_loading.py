@@ -3024,16 +3024,16 @@ def add_bdt_scores(df):
     LABELSZP = ["bkg", "pi0", "nonpi0"]
 
     for label, bkg_query in zip(LABELSZP, nue_booster.bkg_queries):
-        with open(ls.pickle_path + "booster_%s_45_1011_0pnewloosesel_query50split.pickle" % label, "rb") as booster_file:
+        with open(ls.pickle_path + "booster_%s_45_1011_0pnewloosesel_simple.pickle" % label, "rb") as booster_file:
             booster = pickle.load(booster_file)
             df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
 
     # LABELSZP = ["bkg", "pi0", "nonpi0", "np"]
 
     # for label, bkg_query in zip(LABELSZP, nue_booster.bkg_queries):
-        # with open(ls.pickle_path + "booster_%s_45_10_0pnewloosesel_mcnuequery.pickle" % label, "rb") as booster_file:
-        #     booster = pickle.load(booster_file)
-        #     df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
+    #     with open(ls.pickle_path + "booster_%s_45_10_0pnewloosesel_mcnuequery_corr.pickle" % label, "rb") as booster_file:
+    #         booster = pickle.load(booster_file)
+    #         df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
 
 def add_stacked_bdt_scores(df):
     import localSettings as ls
@@ -3095,7 +3095,7 @@ def add_stacked_bdt_scores(df):
     LABELSZPNP = ["np"]
 
     for label, bkg_query in zip(LABELSZPNP, nue_booster_stacked.bkg_queries):
-        with open(ls.pickle_path + "booster_%s_45_1011_0pnewloosesel_stackedNpBkg.pickle" % label, "rb") as booster_file:
+        with open(ls.pickle_path + "booster_%s_45_10_0pnewloosesel_mcquery_npbkg.pickle" % label, "rb") as booster_file:
             booster = pickle.load(booster_file)
             df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZPNP]), ntree_limit=booster.best_iteration)
 
