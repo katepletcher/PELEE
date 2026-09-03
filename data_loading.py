@@ -208,6 +208,30 @@ def get_variables():
         "ng2clu_hippfp_r3cm",
         "ng2clu_hippfp_r5cm",
         "ng2clu_hippfp_r10cm",
+        # Blip Variables
+        # "blip_x",
+        # "blip_y",
+        # "blip_z",
+        # "blip_dw",
+        # "blip_energy",
+        # "blip_charge",
+        # "blip_nplanes",
+        # "blip_proxtrkdist",
+        # "blip_proxtrkid",
+        # "blip_touchtrk",
+        # "blip_touchtrkid",
+        # "blip_pl0_nwires",
+        # "blip_pl1_nwires",
+        # "blip_pl2_nwires",
+        # "blip_pl0_bydeadwire",
+        # "blip_pl1_bydeadwire",
+        # "blip_pl2_bydeadwire",
+        # "blip_true_g4id",
+        # "blip_true_pdg",
+        # "blip_true_energy",
+        # "X_SpcPts_v",
+        # "Y_SpcPts_v",
+        # "Z_SpcPts_v"
     ]
 
     VARDICT["VARIABLES"] = VARIABLES
@@ -762,6 +786,10 @@ def process_uproot_shower_variables(up, df):
     trk_id = up.arrays(["trk_id"], library="np")["trk_id"] - 1
     shr_id = up.arrays(["shr_id"], library="np")["shr_id"] - 1
 
+    # blip_x_v = up.arrays(["blip_x"])["blip_x"]
+    # blip_x_sel = get_elm_from_vec_idx(blip_x_v, shr_id)
+    # df["blip_x"] = blip_x_sel
+
     trk_llr_pid_v = up.arrays(["trk_llr_pid_score_v"])["trk_llr_pid_score_v"]
     trk_calo_energy_y_v = up.arrays(["trk_calo_energy_y_v"])["trk_calo_energy_y_v"]
     trk_energy_proton_v = up.arrays(["trk_energy_proton_v"])["trk_energy_proton_v"]
@@ -988,6 +1016,57 @@ def process_uproot_shower_variables(up, df):
     df["diffZ"] = df["nu_centerZ"] - df["flash_z_flash_matching"]
     df["normdiffZ"] = (df["nu_centerZ"] - df["flash_z_flash_matching"]) / df["flash_zwidth_flash_matching"]
     df["fnl"] = 270.0*np.log((df["nu_centerX"] + df["nu_centerY"] + df["nu_centerZ"])/(df["flash_y_flash_matching"] + df["flash_z_flash_matching"])) - df["nu_centerX"]
+
+    df["slcng2shr_ratio"] = df["slcng2shr"] / (df["slcng2shr"] + df["slcng2mip"] + df["slcng2hip"] + df["slcng2mcl"] + df["slcng2dfs"] + df["slcng2bkg"])
+
+    # blip_x = np.array(["blip_x"])
+    # df["blip_x"] = blip_x 
+
+    # blip_x_jagged = up.arrays(["blip_x"])["blip_x"]
+    # # df["blip_y"] = up.arrays(["blip_y"])["blip_y"]
+    # # blip_z = up.arrays(["blip_z"])["blip_z"]
+
+    # # Assuming your ragged array is named 'jagged_array'
+    # max_len = ak.max(ak.num(blip_x_jagged))
+
+    # # Pad to the maximum length and fill the empty spaces with a value (e.g., 0)
+    # padded = ak.fill_none(ak.pad_none(blip_x_jagged, max_len), -999999999)
+
+    # # Now it is rectangular and convertible
+    # regular_array = ak.to_regular(padded)
+    # blip_x = ak.to_numpy(regular_array)
+
+    # df["blip_x"] = blip_x
+
+    # blip_x_jagged = up.arrays(["blip_x"])["blip_x"]
+    # blip_x = ak.flatten(blip_x_jagged)
+    # df["blip_x"] = blip_x
+    
+    # blip_x = up.arrays(["blip_x"])["blip_x"]
+    # df["blip_x"] = blip_x > 5 and blip_x < 251
+    # df["blip_x"] = blip_x > 5
+    # df["blip_y"] = df[df["blip_y"] > -110 & df["blip_y"] < 110]
+    # df["blip_z"] = df[df["blip_z"] > 20 & df["blip_z"] < 986]
+
+    # df["blip_pl0_bydeadwire"] = df[df["blip_pl0_bydeadwire"] == 0]
+    # df["blip_pl1_bydeadwire"] = df[df["blip_pl1_bydeadwire"] == 0]
+    # df["blip_pl2_bydeadwire"] = df[df["blip_pl2_bydeadwire"] == 0]
+
+    # df["blip_toucktrk"] = df[df["blip_touchtrk"] == 0]
+
+    # df["blip_proxtrkdist"] = df[df["blip_proxtrkdist"] > 15]
+
+    # df["blip_vtx_dist_all"] = distance(
+    #     df["reco_nu_vtx_sce_x"],
+    #     df["reco_nu_vtx_sce_y"],
+    #     df["reco_nu_vtx_sce_z"],
+    #     df["blip_x"],
+    #     df["blip_y"],
+    #     df["blip_z"],
+    # )
+
+    # df["blip_vtx_dist"] = df[df["blip_vtx_dist_all"] < 75]
+    # Then drop the vector column blip_vtx_dist_all
 
     return
 
@@ -2090,6 +2169,7 @@ def drop_vector_columns(df):
             "trk_llr_pid_score_v",
             "trk_distance_v",
             "trk_score_v",
+            "blip_vtx_dist_all"
         ]
     drop_columns = [col for col in drop_columns if col in df.columns]
     df.drop(
@@ -2142,10 +2222,14 @@ def get_pot_trig(run_number, category, dataset,variation=None):
     return pot, trig
 
 def signal_def(df):
+    # if df["category"] == 9:
+        # return True
     if df["category"] == 10:
         return True
-    if df["category"] == 11:
-        return True
+    # if df["category"] == 11:
+    #     return True
+    # if df["category"] == 12:
+    #     return True
     else:
         return False
 
@@ -2794,9 +2878,9 @@ def add_nuebar(df):
     # If nu_pdg == -12 and category == 11, make new category number (12) for 1eNp nue-bar events
     df.loc[(df["nu_pdg"] == -12) & (df["category"] == 11), "category"] = 12
     # If nu_pdg == -12 and category == 1, make new category number (7) for CC nue-bar events
-    df.loc[(df["nu_pdg"] == -12) & (df["category"] == 1), "category"] = 7
+    # df.loc[(df["nu_pdg"] == -12) & (df["category"] == 1), "category"] = 7
     # If nu_pdg == -12 and category == 5, make new category number (8) for nue-bar out of fiducial volume events
-    df.loc[(df["nu_pdg"] == -12) & (df["category"] == 5), "category"] = 8
+    # df.loc[(df["nu_pdg"] == -12) & (df["category"] == 5), "category"] = 8
 
 # def merge_test_df(df):
 #     import localSettings as ls
@@ -2850,6 +2934,7 @@ def add_bdt_scores(df):
     import localSettings as ls
     import xgboost as xgb
     import nue_booster
+    # import nue_booster_numi
 
     # TRAINVAR = [
     #     "shr_score",
@@ -3023,8 +3108,9 @@ def add_bdt_scores(df):
 
     LABELSZP = ["bkg", "pi0", "nonpi0"]
 
+    # for label, bkg_query in zip(LABELSZP, nue_booster_numi.bkg_queries):
     for label, bkg_query in zip(LABELSZP, nue_booster.bkg_queries):
-        with open(ls.pickle_path + "booster_%s_45_1011_0pnewloosesel_simple.pickle" % label, "rb") as booster_file:
+        with open(ls.pickle_path + "booster_%s_45_1011_zppresel_mcquery_75split.pickle" % label, "rb") as booster_file:
             booster = pickle.load(booster_file)
             df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
 
@@ -3039,6 +3125,7 @@ def add_stacked_bdt_scores(df):
     import localSettings as ls
     import xgboost as xgb
     import nue_booster_stacked
+    # import nue_booster_stacked_numi
 
     TRAINVARZPNP = [
         "shrmoliereavg",
@@ -3094,8 +3181,9 @@ def add_stacked_bdt_scores(df):
         
     LABELSZPNP = ["np"]
 
+    # for label, bkg_query in zip(LABELSZPNP, nue_booster_stacked_numi.bkg_queries):
     for label, bkg_query in zip(LABELSZPNP, nue_booster_stacked.bkg_queries):
-        with open(ls.pickle_path + "booster_%s_45_10_0pnewloosesel_mcquery_npbkg.pickle" % label, "rb") as booster_file:
+        with open(ls.pickle_path + "booster_%s_45_10_zppresel_mcquery_stacked_75split.pickle" % label, "rb") as booster_file:
             booster = pickle.load(booster_file)
             df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZPNP]), ntree_limit=booster.best_iteration)
 

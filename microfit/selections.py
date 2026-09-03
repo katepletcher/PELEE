@@ -183,22 +183,153 @@ ZPPRESELCRT = ZPPRESEL
 # ZPPRESELCRT += ' and (crtveto != 1 or crthitpe < 100) and _closestNuCosmicDist > 5.'
 # ZPPRESELCRT += ' and (crtveto != 1 or crthitpe < 100)'
 ZPPRESELCRT += ' and crtveto != 1'
-# ZPPRESELCRT += ' and bkg_score > 0.8'
-# ZPPRESELCRT += ' and pi0_score > 0.8'
-# ZPPRESELCRT += ' and nonpi0_score > 0.9'
 
-# ZPPRESELCRT += ' and shrmoliereavg < 16'
+# ZPPRESELCRT += ' and pi0_score > 0.25'
+# ZPPRESELCRT += ' and nonpi0_score > 0.4'
+
+# ZPPRESELCRT += ' and pi0_score > 0.25'
+# ZPPRESELCRT += ' and nonpi0_score > 0.4'
+
+# ZPPRESELCRT += ' and nhits_r1cm < 20'
+
+# ZPPRESELCRT += ' and slcng2mip < 30'
+# ZPPRESELCRT += ' and clung2mip < 30'
+
+# ZPPRESELCRT += ' and pi0_score > 0.91'
+# ZPPRESELCRT += ' and nonpi0_score > 0.97'
+# ZPPRESELCRT += ' and np_score > 0.8'
+
+# ZPPRESELCRT += ' and slcng2shr_ratio > 0.85'
+
+# ZPPRESELCRT += ' and slcng2shr > 0'
+# ZPPRESELCRT += ' and slcng2mip > 0'
+# ZPPRESELCRT += ' and slcng2hip > 0'
+# ZPPRESELCRT += ' and slcng2mcl > 0'
+# ZPPRESELCRT += ' and slcng2bkg > 0'
+# ZPPRESELCRT += ' and slcng2dfs > 0'
+
+# ZPPRESELCRT += ' and slcng2hip < 20'
+# ZPPRESELCRT += ' and slcng2mip < 20'
+# ZPPRESELCRT += ' and slcng2shr > 625'
+# ZPPRESELCRT += ' and clung2shr > 525'
+# ZPPRESELCRT += ' and ng2hip_r1cm < 1'
+# ZPPRESELCRT += ' and ng2hip_r3cm < 1'
+# ZPPRESELCRT += ' and slcng2bkg < 40'
+# ZPPRESELCRT += ' and slcng2dfs > 8'
+# ZPPRESELCRT += ' and ng2hip_r10cm < 2'
+# ZPPRESELCRT += ' and ng2hip_r5cm < 1'
+# ZPPRESELCRT += ' and clung2shr > 375'
+# ZPPRESELCRT += ' and clung2bkg < 40'
+# ZPPRESELCRT += ' and clung2hip < 15'
+# ZPPRESELCRT += ' and clung2mcl < 5'
+# ZPPRESELCRT += ' and clung2mip < 22'
+# ZPPRESELCRT += ' and nhits_r1cm < 20'
+# ZPPRESELCRT += ' and nhits_r3cm < 60'
+# ZPPRESELCRT += ' and shr_trk_sce_start_y > -100 and shr_trk_sce_start_y < 100'
+# ZPPRESELCRT += ' and shr_trk_sce_end_y < 115'
+# ZPPRESELCRT += ' and shr_trk_sce_end_y > -110'
+# ZPPRESELCRT += ' and shr_trk_sce_start_y < 90'
+# ZPPRESELCRT += ' and CylFrac2h_1cm < 0.4'
+# ZPPRESELCRT += ' and shr_tkfit_2cm_dedx_Y < 4'
+# ZPPRESELCRT += ' and normdiffZ > -0.65'
+# ZPPRESELCRT += ' and shr_tkfit_gap10_dedx_V < 4.5'
+# ZPPRESELCRT += ' and shr_tkfit_gap10_dedx_Y < 3.5'
+# ZPPRESELCRT += ' and shr_tkfit_2cm_dedx_Y < 3.8'
+# ZPPRESELCRT += ' and shrmoliereavg < 20'
+# ZPPRESELCRT += ' and shr_tkfit_2cm_dedx_Y < 3.25 and shr_tkfit_2cm_dedx_Y > 1'
+# ZPPRESELCRT += ' and DeltaRMS2h > 1.75'
+# ZPPRESELCRT += ' and shrMCSMom > 25'
+# ZPPRESELCRT += ' and diffZ > -70'
+# ZPPRESELCRT += ' and normdiffZ > -0.65'
+# ZPPRESELCRT += ' and normdiffY > -2.1'
+# ZPPRESELCRT += ' and shr_trk_len > 30'
+# ZPPRESELCRT += ' and CosmicDirAll3D > -0.8'
+# ZPPRESELCRT += ' and CosmicDirAll3D > -0.8 and CosmicDirAll3D < 0.85'
+# ZPPRESELCRT += ' and slcng2mcl < 18'
+# ZPPRESELCRT += ' and clung2dfs > 2'
+# ZPPRESELCRT += ' and ng2hip_r10cm < 1'
+# ZPPRESELCRT += ' and trkfit < 1 and trkfit > 0.02'
+# ZPPRESELCRT += ' and trkfit > 0.02'
+# ZPPRESELCRT += ' and clung2dfs > 2'
+
+ZPBDT40EFF = ZPPRESELCRT
+ZPBDT40EFF += ' and nonpi0_score > 0.95'
+ZPBDT40EFF += ' and pi0_score > 0.875'
+ZPBDT40EFF += ' and np_score > 0.5'
+ZPBDT40EFF += ' and slcng2mip < 30'
+ZPBDT40EFF += ' and shr_trk_sce_start_y > -100 and shr_trk_sce_start_y < 100'
+
+ZPBDT35EFF = ZPPRESELCRT
+ZPBDT35EFF += ' and nonpi0_score > 0.95'
+ZPBDT35EFF += ' and pi0_score > 0.91'
+ZPBDT35EFF += ' and np_score > 0.55'
+ZPBDT35EFF += ' and slcng2mip < 30'
+ZPBDT35EFF += ' and shr_trk_sce_start_y > -100 and shr_trk_sce_start_y < 100'
+
+ZPBDT30EFF = ZPPRESELCRT
+ZPBDT30EFF += ' and nonpi0_score > 0.95'
+ZPBDT30EFF += ' and pi0_score > 0.915'
+ZPBDT30EFF += ' and np_score > 0.69'
+ZPBDT30EFF += ' and slcng2mip < 30'
+ZPBDT30EFF += ' and shr_trk_sce_start_y > -100 and shr_trk_sce_start_y < 100'
+
+# ZPPRESELCRT += ' and cos_shr_theta > 0.6'
+# ZPPRESELCRT += ' and shr_energy_tot_cali > 0.51'
+# ZPPRESELCRT += ' and electron_e > 0.51'
+
+# ZPPRESELCRT += ' and bkg_score > 0.8'
+# ZPPRESELCRT += ' and pi0_score > 0.6'
+# ZPPRESELCRT += ' and nonpi0_score > 0.75'
+# ZPPRESELCRT += ' and np_score > 0.8'
+# ZPPRESELCRT += ' and diffZ > -60'
+# ZPPRESELCRT += ' and trkfit < 1'
+# ZPPRESELCRT += ' and normdiffY > -2.1'
+
+# ZPPRESELCRT += ' and pi0_score > 0.85'
+# ZPPRESELCRT += ' and nonpi0_score > 0.96'
+
+# ZPPRESELCRT += ' and ng2hip_r1cm < 1'
+# ZPPRESELCRT += ' and ng2hip_r3cm < 1'
+# ZPPRESELCRT += ' and ng2hip_r5cm < 1'
+# ZPPRESELCRT += ' and ng2hip_r10cm < 1'
+
+# ZPPRESELCRT += ' and slcng2shr > 400'
+# ZPPRESELCRT += ' and clung2bkg < 20'
+# ZPPRESELCRT += ' and slcng2bkg < 50'
+# ZPPRESELCRT += ' and clung2mip < 20'
+
+# ZPPRESELCRT += ' and nonpi0_score > 0.775'
+# ZPPRESELCRT += ' and pi0_score > 0.8'
+
+# ZPPRESELCRT += ' and clung2shr > 200'
+# ZPPRESELCRT += ' and slcng2shr > 450'
+# ZPPRESELCRT += ' and nhits_r10cm > 50'
+# ZPPRESELCRT += ' and nhits_r5cm < 115'
+# ZPPRESELCRT += ' and nhits_r3cm < 60'
+
+# ZPPRESELCRT += ' and shr_trk_len > 30'
+# ZPPRESELCRT += ' and shr_tkfit_2cm_dedx_Y < 4'
+# ZPPRESELCRT += ' and shr_tkfit_gap10_dedx_V < 4.5'
+# ZPPRESELCRT += ' and normdiffZ > -0.65'
+
+# ZPPRESELCRT += ' and shr_tkfit_2cm_dedx_Y < 3.8 and shr_tkfit_2cm_dedx_Y > 1'
+# ZPPRESELCRT += ' and diffZ > -60'
+
+# ZPPRESELCRT += ' and DeltaRMS2h > 1.5'
+
+# ZPPRESELCRT += ' and shrmoliereavg < 20'
 # # ZPPRESELCRT += ' and trkfit < 0.5'
 # # # ZPPRESELCRT += ' and secondshower_Y_nhit < 12'
 # ZPPRESELCRT += ' and shr_trk_sce_start_y > -100 and shr_trk_sce_start_y < 100'
 # ZPPRESELCRT += ' and shr_trk_len > 10'
-# # ZPPRESELCRT += ' and CylFrac2h_1cm < 0.5'
+# ZPPRESELCRT += ' and CylFrac2h_1cm < 0.6'
 # ZPPRESELCRT += ' and DeltaRMS2h < 18'
 # ZPPRESELCRT += ' and clung2hip < 20'
 # ZPPRESELCRT += ' and nhits_r5cm < 75'
 
 # ZPPRESELCRT += ' and CosmicIPAll3D > 6'
-# ZPPRESELCRT += ' and shrMCSMom > 25'
+# ZPPRESELCRT += ' and shrMCSMom > 50'
+# ZPPRESELCRT += ' and shrMCSMom < 350'
 
 # ZPPRESELCRT += ' and pi0_score > 0.875'
 
@@ -262,10 +393,13 @@ ZPLOOSENEW += ' and fnl > -200 and fnl < 50'
 # ZPLOOSENEW += ' and nonpi0_score > 0.6'
 # ZPLOOSENEW += ' and pi0_score > 0.35'
 
-# ZPLOOSENEW += ' and nonpi0_score > 0.975'
-# ZPLOOSENEW += ' and pi0_score > 0.95'
+# ZPLOOSENEW += ' and slcng2shr > 150'
+# ZPLOOSENEW += ' and slcng2bkg < 70'
+
+# ZPLOOSENEW += ' and nonpi0_score > 0.99'
+# ZPLOOSENEW += ' and pi0_score > 0.955'
 # ZPLOOSENEW += ' and bkg_score > 0.8'
-# ZPLOOSENEW += ' and np_score > 0.5'
+# ZPLOOSENEW += ' and np_score > 0.6'
 # Cuts for nue split training
 # ZPLOOSENEW += ' and clung2dfs > 10'
 # ZPLOOSENEW += ' and clung2shr > 300'
@@ -678,6 +812,9 @@ selection_categories = {
     'None': {'query': None, 'title': 'NoCuts', 'dir': 'None'},
     'ZP': {'query': ZPPRESEL, 'title': '1e0p0$\\pi$ Presel.', 'dir': 'ZP'},
     'ZPBDT': {'query': ZPBDTLOOSE, 'title': '1e0p0$\\pi$ BDT sel.', 'dir': 'ZPBDT'},
+    'ZPBDT40EFF': {'query': ZPBDT40EFF, 'title': '1e0p0$\\pi$ BDT sel., 0.4 Eff.', 'dir': 'ZPBDT40EFF'},
+    'ZPBDT35EFF': {'query': ZPBDT35EFF, 'title': '1e0p0$\\pi$ BDT sel., 0.35 Eff.', 'dir': 'ZPBDT35EFF'},
+    'ZPBDT30EFF': {'query': ZPBDT30EFF, 'title': '1e0p0$\\pi$ BDT sel., 0.3 Eff.', 'dir': 'ZPBDT30EFF'},
     'ZPNEWBDT': {'query': ZPNEWBDT, 'title': '1e0p0$\\pi$ BDT Scores', 'dir': 'ZPNEWBDT'},
     'ZPBDTSLICE': {'query': ZPBDTLOOSESLICE, 'title': '1e0p0$\\pi$ BDT sel. w/ slice cuts', 'dir': 'ZPBDTSLICE'},
     'ZPBDTCRTLITE': {'query': ZPBDTLOOSE_CRTLITE, 'title': '1e0p0$\\pi$ BDT sel. w/ CRT', 'dir': 'ZPBDTCRTLITE'},

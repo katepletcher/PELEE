@@ -83,8 +83,9 @@ paper_labels_xsec = {
 
 
 category_labels = {
-    1: r"$\nu_e$ CC",
-    7: r"$\overline{\nu_e}$  CC",
+    1: r"$\nu_e$ + $\overline{\nu_e}$  CC",
+    # 1: r"$\nu_e$ CC",
+    # 7: r"$\overline{\nu_e}$  CC",
     9: r"$\overline{\nu_e}$  CC0$\pi$0p",
     10: r"$\nu_e$ CC0$\pi$0p",
     11: r"$\nu_e$ CC0$\pi$Np",
@@ -99,8 +100,9 @@ category_labels = {
     3: r"$\nu$ NC",
     31: r"$\nu$ NC $\pi^{0}$",
     4: r"Cosmic",
-    5: r"$\nu_e$ Out. fid. vol.",
-    8: r"$\overline{\nu_e}$  Out. fid. vol.",
+    5: r"$\nu_e$ + $\overline{\nu_e}$  Out. fid. vol.",
+    # 5: r"$\nu_e$ Out. fid. vol.",
+    # 8: r"$\overline{\nu_e}$  Out. fid. vol.",
     # eta categories start with 80XX
     801: r"$\eta \rightarrow$ other",
     802: r"$\nu_{\mu} \eta \rightarrow \gamma\gamma$",
@@ -246,7 +248,7 @@ category_colors = {
     9:"xkcd:lilac",   # Add nue-bar 1e0p category color
     10: "xkcd:hot pink",   # Change 1e0p CC nue
     11: "xkcd:lime green",
-    12: "xkcd:purple",      # Add nue-bar 1eNp category color
+    12: "xkcd:pale green",      # Add nue-bar 1eNp category color
     # 12: "xkcd:soft green",
     13: "xkcd:bright lime",
     111: "xkcd:goldenrod",
