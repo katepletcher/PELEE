@@ -166,7 +166,11 @@ class RunHistPlotter:
                 "print_tot_pred_norm:",
                 total_mc_hist.bin_counts / np.sum(total_mc_hist.bin_counts),
             )
-
+            print(
+                "print_tot_pred:",
+                total_mc_hist.bin_counts
+            )
+            
         if show_data_mc_ratio:
             if ax is None and ax_ratio is None:
                 fig, (ax, ax_ratio) = plt.subplots(

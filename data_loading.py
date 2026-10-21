@@ -2227,7 +2227,7 @@ def signal_def(df):
     if df["category"] == 10:
         return True
     # if df["category"] == 11:
-    #     return True
+        # return True
     # if df["category"] == 12:
     #     return True
     else:
@@ -2249,6 +2249,7 @@ def load_sample(
     use_lee_weights=False,
     use_bdt=True,
     use_bdt_stacked=False,
+    use_bdt_varEff=False,
     use_numi=False,
     use_truth_filters=True,
     pi0scaling=0,
@@ -2448,8 +2449,11 @@ def load_sample(
         add_bdt_scores(df)
 
     if use_bdt_stacked:
-        assert use_bdt
+        # assert use_bdt
         add_stacked_bdt_scores(df)
+        
+    if use_bdt_varEff:
+        add_separate_bdt_scores(df)
 
     df["is_signal"] = df.apply(signal_def, axis=1)
 
@@ -3001,17 +3005,62 @@ def add_bdt_scores(df):
     #         booster = pickle.load(booster_file)
     #         df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
 
+    # TRAINVARZP = [
+    #     "shrmoliereavg",
+    #     "shr_score",
+    #     "trkfit",
+    #     "subcluster",
+    #     "CosmicIPAll3D",
+    #     "CosmicDirAll3D",
+    #     "shrMCSMom",
+    #     "DeltaRMS2h",
+    #     "shrPCA1CMed_5cm",
+    #     "CylFrac2h_1cm",    
+    #     "shr_tkfit_2cm_dedx_Y",
+    #     "shr_tkfit_2cm_dedx_U",
+    #     "shr_tkfit_2cm_dedx_V",
+    #     "shr_tkfit_gap10_dedx_Y",
+    #     "shr_tkfit_gap10_dedx_U",
+    #     "shr_tkfit_gap10_dedx_V",
+    #     "shr_tkfit_dedx_max",
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_vtxdist",
+    #     "secondshower_U_dot",
+    #     "secondshower_U_dir",
+    #     "anglediff_U",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_vtxdist",
+    #     "secondshower_V_dot",
+    #     "secondshower_V_dir",
+    #     "anglediff_V",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "secondshower_Y_dir",
+    #     "anglediff_Y",
+    #     "slcng2mip",
+    #     "slcng2hip",
+    #     "slcng2shr",
+    #     "slcng2mcl",
+    #     "slcng2dfs",
+    #     "slcng2bkg",
+    #     "clung2mip",
+    #     "clung2hip",
+    #     "clung2shr",
+    #     "clung2mcl",
+    #     "clung2dfs",
+    #     "clung2bkg",
+    #     "nhits_r1cm",
+    #     "nhits_r3cm",
+    #     "nhits_r5cm",
+    #     "nhits_r10cm",
+    #     "diffY","normdiffY","diffZ","normdiffZ","fnl",
+    # ]
+    
     TRAINVARZP = [
-        "shrmoliereavg",
-        "shr_score",
-        "trkfit",
-        "subcluster",
         "CosmicIPAll3D",
-        "CosmicDirAll3D",
-        "shrMCSMom",
         "DeltaRMS2h",
         "shrPCA1CMed_5cm",
-        "CylFrac2h_1cm",    
         "shr_tkfit_2cm_dedx_Y",
         "shr_tkfit_2cm_dedx_U",
         "shr_tkfit_2cm_dedx_V",
@@ -3020,20 +3069,12 @@ def add_bdt_scores(df):
         "shr_tkfit_gap10_dedx_V",
         "shr_tkfit_dedx_max",
         "secondshower_U_nhit",
-        "secondshower_U_vtxdist",
-        "secondshower_U_dot",
         "secondshower_U_dir",
-        "anglediff_U",
         "secondshower_V_nhit",
-        "secondshower_V_vtxdist",
-        "secondshower_V_dot",
         "secondshower_V_dir",
-        "anglediff_V",
         "secondshower_Y_nhit",
         "secondshower_Y_vtxdist",
-        "secondshower_Y_dot",
         "secondshower_Y_dir",
-        "anglediff_Y",
         "slcng2mip",
         "slcng2hip",
         "slcng2shr",
@@ -3050,7 +3091,8 @@ def add_bdt_scores(df):
         "nhits_r3cm",
         "nhits_r5cm",
         "nhits_r10cm",
-        "diffY","normdiffY","diffZ","normdiffZ","fnl",
+        "diffY",
+        "normdiffY",
     ]
 
     # TRAINVARNP = [
@@ -3110,7 +3152,7 @@ def add_bdt_scores(df):
 
     # for label, bkg_query in zip(LABELSZP, nue_booster_numi.bkg_queries):
     for label, bkg_query in zip(LABELSZP, nue_booster.bkg_queries):
-        with open(ls.pickle_path + "booster_%s_45_1011_zppresel_mcquery_75split.pickle" % label, "rb") as booster_file:
+        with open(ls.pickle_path + "booster_%s_45_1011_zppresel_mcquery_75split_lowEffFix.pickle" % label, "rb") as booster_file:
             booster = pickle.load(booster_file)
             df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZP]), ntree_limit=booster.best_iteration)
 
@@ -3127,13 +3169,169 @@ def add_stacked_bdt_scores(df):
     import nue_booster_stacked
     # import nue_booster_stacked_numi
 
+    # TRAINVARZPNP = [
+    #     "shrmoliereavg",
+    #     "shr_score",
+    #     "trkfit",
+    #     "subcluster",
+    #     "CosmicIPAll3D",
+    #     "CosmicDirAll3D",
+    #     "shrMCSMom",
+    #     "DeltaRMS2h",
+    #     "shrPCA1CMed_5cm",
+    #     "CylFrac2h_1cm",    
+    #     "shr_tkfit_2cm_dedx_Y",
+    #     "shr_tkfit_2cm_dedx_U",
+    #     "shr_tkfit_2cm_dedx_V",
+    #     "shr_tkfit_gap10_dedx_Y",
+    #     "shr_tkfit_gap10_dedx_U",
+    #     "shr_tkfit_gap10_dedx_V",
+    #     "shr_tkfit_dedx_max",
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_vtxdist",
+    #     "secondshower_U_dot",
+    #     "secondshower_U_dir",
+    #     "anglediff_U",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_vtxdist",
+    #     "secondshower_V_dot",
+    #     "secondshower_V_dir",
+    #     "anglediff_V",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dot",
+    #     "secondshower_Y_dir",
+    #     "anglediff_Y",
+    #     "slcng2mip",
+    #     "slcng2hip",
+    #     "slcng2shr",
+    #     "slcng2mcl",
+    #     "slcng2dfs",
+    #     "slcng2bkg",
+    #     "clung2mip",
+    #     "clung2hip",
+    #     "clung2shr",
+    #     "clung2mcl",
+    #     "clung2dfs",
+    #     "clung2bkg",
+    #     "nhits_r1cm",
+    #     "nhits_r3cm",
+    #     "nhits_r5cm",
+    #     "nhits_r10cm",
+    #     "diffY","normdiffY","diffZ","normdiffZ","fnl",
+    # ]
+    
+    # TRAINVARZPNP = [
+    #     "CosmicIPAll3D",
+    #     "DeltaRMS2h",
+    #     "shrPCA1CMed_5cm",
+    #     "shr_tkfit_2cm_dedx_Y",
+    #     "shr_tkfit_2cm_dedx_U",
+    #     "shr_tkfit_2cm_dedx_V",
+    #     "shr_tkfit_gap10_dedx_Y",
+    #     "shr_tkfit_gap10_dedx_U",
+    #     "shr_tkfit_gap10_dedx_V",
+    #     "shr_tkfit_dedx_max",
+    #     "secondshower_U_nhit",
+    #     "secondshower_U_dir",
+    #     "secondshower_V_nhit",
+    #     "secondshower_V_dir",
+    #     "secondshower_Y_nhit",
+    #     "secondshower_Y_vtxdist",
+    #     "secondshower_Y_dir",
+    #     "slcng2mip",
+    #     "slcng2hip",
+    #     "slcng2shr",
+    #     "slcng2mcl",
+    #     "slcng2dfs",
+    #     "slcng2bkg",
+    #     "clung2mip",
+    #     "clung2hip",
+    #     "clung2shr",
+    #     "clung2mcl",
+    #     "clung2dfs",
+    #     "clung2bkg",
+    #     "nhits_r1cm",
+    #     "nhits_r3cm",
+    #     "nhits_r5cm",
+    #     "nhits_r10cm",
+    #     "diffY",
+    #     "normdiffY",
+    # ]
+    
     TRAINVARZPNP = [
         "shrmoliereavg",
-        "shr_score",
         "trkfit",
-        "subcluster",
+        # "subcluster",
         "CosmicIPAll3D",
         "CosmicDirAll3D",
+        "shrMCSMom",
+        # "DeltaRMS2h",
+        "shrPCA1CMed_5cm",
+        # "CylFrac2h_1cm",    
+        "shr_tkfit_2cm_dedx_Y",
+        "shr_tkfit_2cm_dedx_U",
+        "shr_tkfit_2cm_dedx_V",
+        "shr_tkfit_gap10_dedx_Y",
+        "shr_tkfit_gap10_dedx_U",
+        "shr_tkfit_gap10_dedx_V",
+        "shr_tkfit_dedx_max",
+        "secondshower_U_nhit",
+        "secondshower_U_vtxdist",
+        "secondshower_U_dir",
+        "anglediff_U",
+        "secondshower_V_nhit",
+        "secondshower_V_vtxdist",
+        "secondshower_V_dir",
+        "anglediff_V",
+        # "secondshower_Y_nhit",
+        "secondshower_Y_vtxdist",
+        "secondshower_Y_dir",
+        "anglediff_Y",
+        # "slcng2mip",
+        "slcng2hip",
+        "slcng2shr",
+        # "slcng2mcl",
+        "slcng2dfs",
+        # "slcng2bkg",
+        # "clung2mip",
+        "clung2hip",
+        "clung2shr",
+        # "clung2mcl",
+        "clung2dfs",
+        # "clung2bkg",
+        "nhits_r1cm",
+        "nhits_r3cm",
+        "nhits_r5cm",
+        "nhits_r10cm",
+        "ng2hip_r1cm",
+        "ng2hip_r3cm",
+        "ng2hip_r5cm",
+        "ng2hip_r10cm",
+        # "diffY",
+        # "normdiffY",
+        "diffZ",
+        # "normdiffZ",
+        "fnl",
+    ]
+        
+    LABELSZPNP = ["np"]
+
+    # for label, bkg_query in zip(LABELSZPNP, nue_booster_stacked_numi.bkg_queries):
+    for label, bkg_query in zip(LABELSZPNP, nue_booster_stacked.bkg_queries):
+        with open(ls.pickle_path + "booster_%s_45_1011_zppresel_mcquery_75split_lowEff_stacked_np_fewerVars.pickle" % label, "rb") as booster_file:
+            booster = pickle.load(booster_file)
+            df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZPNP]), ntree_limit=booster.best_iteration)
+
+def add_separate_bdt_scores(df):
+    import localSettings as ls
+    import xgboost as xgb
+    import nue_booster_pi0
+    import nue_booster_nonpi0
+    
+    TRAINVARPI0 = [
+        "shrmoliereavg",
+        "trkfit",
         "shrMCSMom",
         "DeltaRMS2h",
         "shrPCA1CMed_5cm",
@@ -3146,46 +3344,87 @@ def add_stacked_bdt_scores(df):
         "shr_tkfit_gap10_dedx_V",
         "shr_tkfit_dedx_max",
         "secondshower_U_nhit",
-        "secondshower_U_vtxdist",
-        "secondshower_U_dot",
-        "secondshower_U_dir",
+        # "secondshower_U_vtxdist",
+        # "secondshower_U_dir",
         "anglediff_U",
         "secondshower_V_nhit",
         "secondshower_V_vtxdist",
-        "secondshower_V_dot",
-        "secondshower_V_dir",
+        # "secondshower_V_dir",
         "anglediff_V",
         "secondshower_Y_nhit",
         "secondshower_Y_vtxdist",
-        "secondshower_Y_dot",
-        "secondshower_Y_dir",
+        # "secondshower_Y_dir",
         "anglediff_Y",
         "slcng2mip",
         "slcng2hip",
         "slcng2shr",
         "slcng2mcl",
         "slcng2dfs",
-        "slcng2bkg",
-        "clung2mip",
+        # "slcng2bkg",
+        # "clung2mip",
         "clung2hip",
         "clung2shr",
-        "clung2mcl",
+        # "clung2mcl",
         "clung2dfs",
-        "clung2bkg",
-        "nhits_r1cm",
+        # "clung2bkg",
+        # "nhits_r1cm",
         "nhits_r3cm",
         "nhits_r5cm",
         "nhits_r10cm",
-        "diffY","normdiffY","diffZ","normdiffZ","fnl",
     ]
-        
-    LABELSZPNP = ["np"]
-
-    # for label, bkg_query in zip(LABELSZPNP, nue_booster_stacked_numi.bkg_queries):
-    for label, bkg_query in zip(LABELSZPNP, nue_booster_stacked.bkg_queries):
-        with open(ls.pickle_path + "booster_%s_45_10_zppresel_mcquery_stacked_75split.pickle" % label, "rb") as booster_file:
+    
+    TRAINVARNONPI0 = [
+        "shrmoliereavg",
+        # "trkfit",
+        "subcluster",
+        "CosmicIPAll3D",
+        "CosmicDirAll3D",
+        "shrMCSMom",
+        "DeltaRMS2h",
+        # "shrPCA1CMed_5cm",
+        # "CylFrac2h_1cm",    
+        "shr_tkfit_2cm_dedx_Y",
+        "shr_tkfit_2cm_dedx_U",
+        "shr_tkfit_2cm_dedx_V",
+        "shr_tkfit_gap10_dedx_Y",
+        "shr_tkfit_gap10_dedx_U",
+        "shr_tkfit_gap10_dedx_V",
+        "shr_tkfit_dedx_max",
+        "slcng2mip",
+        "slcng2hip",
+        "slcng2shr",
+        "slcng2mcl",
+        # "slcng2dfs",
+        "slcng2bkg",
+        # "clung2mip",
+        "clung2hip",
+        "clung2shr",
+        # "clung2mcl",
+        "clung2dfs",
+        "clung2bkg",
+        # "nhits_r1cm",
+        "nhits_r3cm",
+        "nhits_r5cm",
+        "nhits_r10cm",
+        # "diffY",
+        "normdiffY",
+        "diffZ",
+        # "normdiffZ",
+        "fnl",
+    ]
+    
+    LABELSPI0 = ["pi0"]
+    LABELSNONPI0 = ["nonpi0"]
+    
+    for label, bkg_query in zip(LABELSPI0, nue_booster_pi0.bkg_queries):
+        with open(ls.pickle_path + "booster_%s_45_1011_zppresel_mcquery_75split_lowEff_pi0_fewerVars.pickle" % label, "rb") as booster_file:
             booster = pickle.load(booster_file)
-            df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARZPNP]), ntree_limit=booster.best_iteration)
+            df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARPI0]), ntree_limit=booster.best_iteration)
+                
+    for label, bkg_query in zip(LABELSNONPI0, nue_booster_nonpi0.bkg_queries):
+        with open(ls.pickle_path + "booster_%s_45_1011_zppresel_mcquery_75split_lowEff_nonpi0_fewerVars.pickle" % label, "rb") as booster_file:
+            booster = pickle.load(booster_file)
+            df[label + "_score"] = booster.predict(xgb.DMatrix(df[TRAINVARNONPI0]), ntree_limit=booster.best_iteration)
 
 def add_mc_weight_variables(df, pi0scaling=0):
     # add MCC8-style weights

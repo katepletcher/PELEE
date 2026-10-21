@@ -212,7 +212,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a samples with 1e0p presel
   - run_id: "4a_zppresel"
-    path: slimmedMCC910/run4a/zppresel/
+    path: zppresel/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4a_BNB_beam_on_data_surprise_reco2_hist_opendata_19550
       pot: 2.098e+19
@@ -268,7 +268,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a nue presel with POT for split test samples, calculated 3/4/26
   - run_id: "4a_zppresel_testsplit"
-    path: slimmedMCC910/run4a/zppresel/
+    path: zppresel/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4a_BNB_beam_on_data_surprise_reco2_hist_opendata_19550
       pot: 2.098e+19
@@ -324,7 +324,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a 1e0p presel with POT for queried samples, test sample stil split 50/50, calculated 6/15/26
   - run_id: "4a_zppresel_querysplit"
-    path: slimmedMCC910/run4a/zppresel/
+    path: zppresel/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4a_BNB_beam_on_data_surprise_reco2_hist_opendata_19550
       pot: 2.098e+19
@@ -380,7 +380,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a 1e0p presel with POT for queried samples, test sample stil split 50/50, calculated 6/22/26
   - run_id: "4a_zppresel_mcnuequery"
-    path: slimmedMCC910/run4a/zppresel/
+    path: zppresel/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4a_BNB_beam_on_data_surprise_reco2_hist_opendata_19550
       pot: 2.098e+19
@@ -408,7 +408,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a 1e0p presel with POT for queried samples, test sample split 75/25, calculated 7/2/26 by Liz
   - run_id: "4a_zppresel_mcnuequery_75"
-    path: slimmedMCC910/run4a/zppresel/
+    path: zppresel/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4a_BNB_beam_on_data_surprise_reco2_hist_opendata_19550
       pot: 2.098e+19
@@ -464,7 +464,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a zp presel with POT for split split test samples, calculated 6/23/26
   - run_id: "4a_zppresel_testsplit_split"
-    path: slimmedMCC910/run4a/zppresel/
+    path: zppresel/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4a_BNB_beam_on_data_surprise_reco2_hist_opendata_19550
       pot: 2.098e+19
@@ -492,7 +492,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a 1e0p presel with POT for queried samples, test sample stil split 75/25, calculated 6/30/26 by Liz
   - run_id: "4a_zppresel_querysplit_75"
-    path: slimmedMCC910/run4a/zppresel/
+    path: zppresel/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4a_BNB_beam_on_data_surprise_reco2_hist_opendata_19550
       pot: 2.098e+19
@@ -520,7 +520,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a zp presel with POT for 75/25 split and 75/25 split test samples, calculated 7/14/26 by Liz
   - run_id: "4a_zppresel_75testsplit_75split"
-    path: slimmedMCC910/run4a/zppresel/
+    path: zppresel/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4a_BNB_beam_on_data_surprise_reco2_hist_opendata_19550
       pot: 2.098e+19
@@ -604,7 +604,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a NuMI samples with 1e0p presel
   - run_id: "4a_numi_RHC_zppresel"
-    path: slimmedMCC910/numi/RHC/run4a/zppresel/
+    path: numi/RHC/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4a
       pot: 1.566e+19
@@ -632,7 +632,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a NuMI samples with 1e0p presel
   - run_id: "4a_numi_RHC_zppresel_mcquery"
-    path: slimmedMCC910/numi/RHC/run4a/zppresel/
+    path: numi/RHC/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4a
       pot: 1.566e+19
@@ -660,7 +660,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a NuMI samples with 1e0p presel
   - run_id: "4a_numi_RHC_zppresel_mcquery_75"
-    path: slimmedMCC910/numi/RHC/run4a/zppresel/
+    path: numi/RHC/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4a
       pot: 1.566e+19
@@ -688,7 +688,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a NuMI samples with 1e0p presel
   - run_id: "4a_numi_RHC_zppresel_mcquery_stacked"
-    path: slimmedMCC910/numi/RHC/run4a/zppresel/
+    path: numi/RHC/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4a
       pot: 1.566e+19
@@ -716,7 +716,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a NuMI samples with 1e0p presel
   - run_id: "4a_numi_RHC_zppresel_mcquery_stacked_75"
-    path: slimmedMCC910/numi/RHC/run4a/zppresel/
+    path: numi/RHC/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4a
       pot: 1.566e+19
@@ -744,7 +744,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a NuMI samples with 1e0p presel
   - run_id: "4a_numi_RHC_zppresel_mcnuequery"
-    path: slimmedMCC910/numi/RHC/run4a/zppresel/
+    path: numi/RHC/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4a
       pot: 1.566e+19
@@ -772,7 +772,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4a NuMI samples with 1e0p presel
   - run_id: "4a_numi_RHC_zppresel_mcnuequery_75"
-    path: slimmedMCC910/numi/RHC/run4a/zppresel/
+    path: numi/RHC/run4a/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4a
       pot: 1.566e+19
@@ -900,7 +900,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # Run 4b MCC9.10 samples with ZP presel and weight branches dropped
   - run_id: "4b_zppresel"
-    path: slimmedMCC910/run4b/zppresel/
+    path: zppresel/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_v10_04_07_20_BNB_beam_on_metapatch_retuple_retuple_hist_opendata_20700
       pot: 4.038e+19
@@ -956,7 +956,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
     # MCC9.10 Run 4b nue presel with POT for split test samples, calculated 3/4/26
   - run_id: "4b_zppresel_testsplit"
-    path: slimmedMCC910/run4b/zppresel/
+    path: zppresel/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_v10_04_07_20_BNB_beam_on_metapatch_retuple_retuple_hist_opendata_20700
       pot: 4.038e+19
@@ -1012,7 +1012,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
     # MCC9.10 Run 4b 1e0p presel with POT for query split, calculated 6/15/26
   - run_id: "4b_zppresel_querysplit"
-    path: slimmedMCC910/run4b/zppresel/
+    path: zppresel/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_v10_04_07_20_BNB_beam_on_metapatch_retuple_retuple_hist_opendata_20700
       pot: 4.038e+19
@@ -1068,7 +1068,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
     # MCC9.10 Run 4b 1e0p presel with POT for query split, calculated 6/22/26
   - run_id: "4b_zppresel_mcnuequery"
-    path: slimmedMCC910/run4b/zppresel/
+    path: zppresel/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_v10_04_07_20_BNB_beam_on_metapatch_retuple_retuple_hist_opendata_20700
       pot: 4.038e+19
@@ -1096,7 +1096,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4b 1e0p presel with POT for query split, 75/25 split, calculated 7/2/26 by Liz
   - run_id: "4b_zppresel_mcnuequery_75"
-    path: slimmedMCC910/run4b/zppresel/
+    path: zppresel/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_v10_04_07_20_BNB_beam_on_metapatch_retuple_retuple_hist_opendata_20700
       pot: 4.038e+19
@@ -1152,7 +1152,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
     # MCC9.10 Run 4b zp presel with POT for split split test samples, calculated 6/8/26
   - run_id: "4b_zppresel_testsplit_split"
-    path: slimmedMCC910/run4b/zppresel/
+    path: zppresel/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_v10_04_07_20_BNB_beam_on_metapatch_retuple_retuple_hist_opendata_20700
       pot: 4.038e+19
@@ -1180,7 +1180,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4b 1e0p presel with POT for query split, 75/25 split, calculated 6/30/26 by Liz
   - run_id: "4b_zppresel_querysplit_75"
-    path: slimmedMCC910/run4b/zppresel/
+    path: zppresel/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_v10_04_07_20_BNB_beam_on_metapatch_retuple_retuple_hist_opendata_20700
       pot: 4.038e+19
@@ -1208,7 +1208,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4b zp presel with POT for 75/25 split 75/25 split test samples, calculated 7/14/26
   - run_id: "4b_zppresel_75testsplit_75split"
-    path: slimmedMCC910/run4b/zppresel/
+    path: zppresel/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_v10_04_07_20_BNB_beam_on_metapatch_retuple_retuple_hist_opendata_20700
       pot: 4.038e+19
@@ -1292,7 +1292,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4b NuMI samples with 1e0p presel
   - run_id: "4b_numi_RHC_zppresel"
-    path: slimmedMCC910/numi/RHC/run4b/zppresel/
+    path: numi/RHC/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_NuMI_beam_on_RHC_data_surprise_v10_04_07_09_reco2_hist
       pot: 1.335e+20
@@ -1320,7 +1320,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4b NuMI samples with 1e0p presel
   - run_id: "4b_numi_RHC_zppresel_mcquery"
-    path: slimmedMCC910/numi/RHC/run4b/zppresel/
+    path: numi/RHC/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_NuMI_beam_on_RHC_data_surprise_v10_04_07_09_reco2_hist
       pot: 1.335e+20
@@ -1348,7 +1348,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4b NuMI samples with 1e0p presel
   - run_id: "4b_numi_RHC_zppresel_mcquery_75"
-    path: slimmedMCC910/numi/RHC/run4b/zppresel/
+    path: numi/RHC/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_NuMI_beam_on_RHC_data_surprise_v10_04_07_09_reco2_hist
       pot: 1.335e+20
@@ -1376,7 +1376,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4b NuMI samples with 1e0p presel
   - run_id: "4b_numi_RHC_zppresel_mcquery_stacked"
-    path: slimmedMCC910/numi/RHC/run4b/zppresel/
+    path: numi/RHC/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_NuMI_beam_on_RHC_data_surprise_v10_04_07_09_reco2_hist
       pot: 1.335e+20
@@ -1404,7 +1404,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4b NuMI samples with 1e0p presel
   - run_id: "4b_numi_RHC_zppresel_mcquery_stacked_75"
-    path: slimmedMCC910/numi/RHC/run4b/zppresel/
+    path: numi/RHC/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_NuMI_beam_on_RHC_data_surprise_v10_04_07_09_reco2_hist
       pot: 1.335e+20
@@ -1432,7 +1432,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4b NuMI samples with 1e0p presel
   - run_id: "4b_numi_RHC_zppresel_mcnuequery"
-    path: slimmedMCC910/numi/RHC/run4b/zppresel/
+    path: numi/RHC/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_NuMI_beam_on_RHC_data_surprise_v10_04_07_09_reco2_hist
       pot: 1.335e+20
@@ -1460,7 +1460,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4b NuMI samples with 1e0p presel
   - run_id: "4b_numi_RHC_zppresel_mcnuequery_75"
-    path: slimmedMCC910/numi/RHC/run4b/zppresel/
+    path: numi/RHC/run4b/
     opendata_bnb:
       file: checkout_MCC9.10_Run4b_NuMI_beam_on_RHC_data_surprise_v10_04_07_09_reco2_hist
       pot: 1.335e+20
@@ -1571,7 +1571,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
 # Run 4c MCC9.10 with 1e0p presel and weight branches dropped
   - run_id: "4c_zppresel"
-    path: slimmedMCC910/run4c/zppresel/
+    path: zppresel/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4c
       pot: 9.04e+19
@@ -1626,7 +1626,7 @@ runs:
       pot: 1.6759563090591262e+21
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   - run_id: "4c_zppresel_testsplit"
-    path: slimmedMCC910/run4c/zppresel/
+    path: zppresel/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4c
       pot: 9.04e+19
@@ -1682,7 +1682,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
     # MCC9.10 Run 4c 1e0p presel with POT for query split, calculated 6/15/26
   - run_id: "4c_zppresel_querysplit"
-    path: slimmedMCC910/run4c/zppresel/
+    path: zppresel/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4c
       pot: 9.04e+19
@@ -1738,7 +1738,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
     # MCC9.10 Run 4c 1e0p presel with POT for query split, calculated 6/22/26
   - run_id: "4c_zppresel_mcnuequery"
-    path: slimmedMCC910/run4c/zppresel/
+    path: zppresel/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4c
       pot: 9.04e+19
@@ -1766,7 +1766,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
 # MCC9.10 Run 4c 1e0p presel with POT for query split, 75/25 split, calculated 7/2/26 by Liz
   - run_id: "4c_zppresel_mcnuequery_75"
-    path: slimmedMCC910/run4c/zppresel/
+    path: zppresel/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4c
       pot: 9.04e+19
@@ -1822,7 +1822,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
     # MCC9.10 Run 4c zp presel with POT for split split test samples, calculated 3/4/26
   - run_id: "4c_zppresel_testsplit_split"
-    path: slimmedMCC910/run4c/zppresel/
+    path: zppresel/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4c
       pot: 9.04e+19
@@ -1850,7 +1850,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c 1e0p presel with POT for query split, 75/25 splt, calculated 6/30/26 by Liz
   - run_id: "4c_zppresel_querysplit_75"
-    path: slimmedMCC910/run4c/zppresel/
+    path: zppresel/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4c
       pot: 9.04e+19
@@ -1878,7 +1878,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c zp presel with POT for 75/25 split 75/25 split test samples, calculated 7/14/26
   - run_id: "4c_zppresel_75testsplit_75split"
-    path: slimmedMCC910/run4c/zppresel/
+    path: zppresel/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4c
       pot: 9.04e+19
@@ -1962,7 +1962,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_RHC_zppresel"
-    path: slimmedMCC910/numi/RHC/run4c/zppresel/
+    path: numi/RHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_RHC
       pot: 1.054e+19
@@ -1990,7 +1990,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_RHC_zppresel_mcquery"
-    path: slimmedMCC910/numi/RHC/run4c/zppresel/
+    path: numi/RHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_RHC
       pot: 1.054e+19
@@ -2018,7 +2018,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_RHC_zppresel_mcquery_75"
-    path: slimmedMCC910/numi/RHC/run4c/zppresel/
+    path: numi/RHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_RHC
       pot: 1.054e+19
@@ -2046,7 +2046,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_RHC_zppresel_mcquery_stacked"
-    path: slimmedMCC910/numi/RHC/run4c/zppresel/
+    path: numi/RHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_RHC
       pot: 1.054e+19
@@ -2074,7 +2074,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_RHC_zppresel_mcquery_stacked_75"
-    path: slimmedMCC910/numi/RHC/run4c/zppresel/
+    path: numi/RHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_RHC
       pot: 1.054e+19
@@ -2102,7 +2102,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_RHC_zppresel_mcnuequery"
-    path: slimmedMCC910/numi/RHC/run4c/zppresel/
+    path: numi/RHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_RHC
       pot: 1.054e+19
@@ -2130,7 +2130,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_RHC_zppresel_mcnuequery_75"
-    path: slimmedMCC910/numi/RHC/run4c/zppresel/
+    path: numi/RHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_RHC
       pot: 1.054e+19
@@ -2214,7 +2214,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_FHC_zppresel"
-    path: slimmedMCC910/numi/FHC/run4c/zppresel/
+    path: numi/FHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_FHC
       pot: 7.759e+19
@@ -2242,7 +2242,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_FHC_zppresel_mcquery"
-    path: slimmedMCC910/numi/FHC/run4c/zppresel/
+    path: numi/FHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_FHC
       pot: 7.759e+19
@@ -2270,7 +2270,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_FHC_zppresel_mcquery_75"
-    path: slimmedMCC910/numi/FHC/run4c/zppresel/
+    path: numi/FHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_FHC
       pot: 7.759e+19
@@ -2298,7 +2298,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_FHC_zppresel_mcquery_stacked"
-    path: slimmedMCC910/numi/FHC/run4c/zppresel/
+    path: numi/FHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_FHC
       pot: 7.759e+19
@@ -2326,7 +2326,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_FHC_zppresel_mcquery_stacked_75"
-    path: slimmedMCC910/numi/FHC/run4c/zppresel/
+    path: numi/FHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_FHC
       pot: 7.759e+19
@@ -2354,7 +2354,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_FHC_zppresel_mcnuequery"
-    path: slimmedMCC910/numi/FHC/run4c/zppresel/
+    path: numi/FHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_FHC
       pot: 7.759e+19
@@ -2382,7 +2382,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4c NuMI samples with 1e0p presel
   - run_id: "4c_numi_FHC_zppresel_mcnuequery_75"
-    path: slimmedMCC910/numi/FHC/run4c/zppresel/
+    path: numi/FHC/run4c/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4c_FHC
       pot: 7.759e+19
@@ -2484,7 +2484,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
 # Run 4d MCC9.10 with 1e0p presel and weight branches dropped
   - run_id: "4d_zppresel"
-    path: slimmedMCC910/run4d/zppresel/
+    path: zppresel/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4d
       pot: 4.933e+19
@@ -2540,7 +2540,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4d nue presel with POT for split test samples, calculated 3/4/26
   - run_id: "4d_zppresel_testsplit"
-    path: slimmedMCC910/run4d/zppresel/
+    path: zppresel/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4d
       pot: 4.933e+19
@@ -2596,7 +2596,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4d 1e0p presel with POT for query split, calculated 6/15/26
   - run_id: "4d_zppresel_querysplit"
-    path: slimmedMCC910/run4d/zppresel/
+    path: zppresel/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4d
       pot: 4.933e+19
@@ -2652,7 +2652,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4d 1e0p presel with POT for query split, calculated 6/22/26
   - run_id: "4d_zppresel_mcnuequery"
-    path: slimmedMCC910/run4d/zppresel/
+    path: zppresel/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4d
       pot: 4.933e+19
@@ -2680,7 +2680,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
  # MCC9.10 Run 4d 1e0p presel with POT for query split, 75/25 split, calculated 7/2/26 by Liz
   - run_id: "4d_zppresel_mcnuequery_75"
-    path: slimmedMCC910/run4d/zppresel/
+    path: zppresel/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4d
       pot: 4.933e+19
@@ -2736,7 +2736,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4d zp presel with POT for split split test samples, calculated 6/8/26
   - run_id: "4d_zppresel_testsplit_split"
-    path: slimmedMCC910/run4d/zppresel/
+    path: zppresel/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4d
       pot: 4.933e+19
@@ -2764,7 +2764,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4d 1e0p presel with POT for query split, 75/25 split, calculated 6/30/26 by Liz
   - run_id: "4d_zppresel_querysplit_75"
-    path: slimmedMCC910/run4d/zppresel/
+    path: zppresel/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4d
       pot: 4.933e+19
@@ -2792,7 +2792,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4d zp presel with POT for 75/25 split 75/25 split test samples, calculated 7/14/26
   - run_id: "4d_zppresel_75testsplit_75split"
-    path: slimmedMCC910/run4d/zppresel/
+    path: zppresel/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4d
       pot: 4.933e+19
@@ -2820,7 +2820,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 4d zp presel with POT for 75/25 split 75/25 split test samples, calculated 7/14/26
   - run_id: "4d_nuepresel_75testsplit_75split"
-    path: slimmedMCC910/run4d/nuepresel/
+    path: run4d_nuepresel/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_4d
       pot: 4.933e+19
@@ -2904,7 +2904,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
  # MCC9.10 Run 4d NuMI samples with 1e0p presel
   - run_id: "4d_numi_FHC_zppresel"
-    path: slimmedMCC910/numi/FHC/run4d/zppresel/
+    path: numi/FHC/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4d
       pot: 4.379e+19
@@ -2932,7 +2932,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
  # MCC9.10 Run 4d NuMI samples with 1e0p presel
   - run_id: "4d_numi_FHC_zppresel_mcquery"
-    path: slimmedMCC910/numi/FHC/run4d/zppresel/
+    path: numi/FHC/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4d
       pot: 4.379e+19
@@ -2960,7 +2960,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
  # MCC9.10 Run 4d NuMI samples with 1e0p presel
   - run_id: "4d_numi_FHC_zppresel_mcquery_75"
-    path: slimmedMCC910/numi/FHC/run4d/zppresel/
+    path: numi/FHC/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4d
       pot: 4.379e+19
@@ -2988,7 +2988,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
  # MCC9.10 Run 4d NuMI samples with 1e0p presel
   - run_id: "4d_numi_FHC_zppresel_mcquery_stacked"
-    path: slimmedMCC910/numi/FHC/run4d/zppresel/
+    path: numi/FHC/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4d
       pot: 4.379e+19
@@ -3016,7 +3016,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
  # MCC9.10 Run 4d NuMI samples with 1e0p presel
   - run_id: "4d_numi_FHC_zppresel_mcquery_stacked_75"
-    path: slimmedMCC910/numi/FHC/run4d/zppresel/
+    path: numi/FHC/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4d
       pot: 4.379e+19
@@ -3044,7 +3044,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
  # MCC9.10 Run 4d NuMI samples with 1e0p presel
   - run_id: "4d_numi_FHC_zppresel_mcnuequery"
-    path: slimmedMCC910/numi/FHC/run4d/zppresel/
+    path: numi/FHC/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4d
       pot: 4.379e+19
@@ -3072,7 +3072,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
  # MCC9.10 Run 4d NuMI samples with 1e0p presel
   - run_id: "4d_numi_FHC_zppresel_mcnuequery_75"
-    path: slimmedMCC910/numi/FHC/run4d/zppresel/
+    path: numi/FHC/run4d/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_4d
       pot: 4.379e+19
@@ -3182,7 +3182,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
 # Run 5 MCC9.10 with 1e0p presel and weight branches dropped
   - run_id: "5_zppresel"
-    path: slimmedMCC910/run5/zppresel/
+    path: zppresel/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_5
       pot: 1.47e+20
@@ -3238,7 +3238,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
 # MCC9.10 Run 5 nue presel with POT for split test samples, calculated 3/4/26
   - run_id: "5_zppresel_testsplit"
-    path: slimmedMCC910/run5/zppresel/
+    path: zppresel/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_5
       pot: 1.47e+20
@@ -3294,7 +3294,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
 # MCC9.10 Run 5 1e0p presel with POT for query split, calculated 6/15/26
   - run_id: "5_zppresel_querysplit"
-    path: slimmedMCC910/run5/zppresel/
+    path: zppresel/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_5
       pot: 1.47e+20
@@ -3350,7 +3350,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
 # MCC9.10 Run 5 1e0p presel with POT for query split, calculated 6/22/26
   - run_id: "5_zppresel_mcnuequery"
-    path: slimmedMCC910/run5/zppresel/
+    path: zppresel/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_5
       pot: 1.47e+20
@@ -3378,7 +3378,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
 # MCC9.10 Run 5 1e0p presel with POT for query split, 75/25 split, calculated 6/30/26 by Liz
   - run_id: "5_zppresel_mcnuequery_75"
-    path: slimmedMCC910/run5/zppresel/
+    path: zppresel/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_5
       pot: 1.47e+20
@@ -3434,7 +3434,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
 # MCC9.10 Run 5 zp presel with POT for split split test samples, calculated 6/8/26
   - run_id: "5_zppresel_testsplit_split"
-    path: slimmedMCC910/run5/zppresel/
+    path: zppresel/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_5
       pot: 1.47e+20
@@ -3462,7 +3462,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
 # MCC9.10 Run 5 1e0p presel with POT for query split, 75/25 split, calculated 6/30/26
   - run_id: "5_zppresel_querysplit_75"
-    path: slimmedMCC910/run5/zppresel/
+    path: zppresel/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_5
       pot: 1.47e+20
@@ -3489,7 +3489,7 @@ runs:
       pot: 5.210240094239581e+21
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   - run_id: "5_zppresel_75testsplit_75split"
-    path: slimmedMCC910/run5/zppresel/
+    path: zppresel/run5
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_5
       pot: 1.47e+20
@@ -3516,7 +3516,7 @@ runs:
       pot: 3.915100250034678e+21
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   - run_id: "5_nuepresel_75testsplit_75split"
-    path: slimmedMCC910/run5/nuepresel/
+    path: run5_nuepresel/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_BNB_beam_on_surprise_reco2_hist_5
       pot: 1.47e+20
@@ -3600,7 +3600,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 5 NuMI samples with 1e0p presel
   - run_id: "5_numi_FHC_zppresel"
-    path: slimmedMCC910/numi/FHC/run5/zppresel/
+    path: numi/FHC/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_5
       pot: 1.456e+20
@@ -3628,7 +3628,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 5 NuMI samples with 1e0p presel
   - run_id: "5_numi_FHC_zppresel_mcquery"
-    path: slimmedMCC910/numi/FHC/run5/zppresel/
+    path: numi/FHC/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_5
       pot: 1.456e+20
@@ -3656,7 +3656,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 5 NuMI samples with 1e0p presel
   - run_id: "5_numi_FHC_zppresel_mcquery_75"
-    path: slimmedMCC910/numi/FHC/run5/zppresel/
+    path: numi/FHC/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_5
       pot: 1.456e+20
@@ -3684,7 +3684,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 5 NuMI samples with 1e0p presel
   - run_id: "5_numi_FHC_zppresel_mcquery_stacked"
-    path: slimmedMCC910/numi/FHC/run5/zppresel/
+    path: numi/FHC/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_5
       pot: 1.456e+20
@@ -3712,7 +3712,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 5 NuMI samples with 1e0p presel
   - run_id: "5_numi_FHC_zppresel_mcquery_stacked_75"
-    path: slimmedMCC910/numi/FHC/run5/zppresel/
+    path: numi/FHC/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_5
       pot: 1.456e+20
@@ -3740,7 +3740,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 5 NuMI samples with 1e0p presel
   - run_id: "5_numi_FHC_zppresel_mcnuequery"
-    path: slimmedMCC910/numi/FHC/run5/zppresel/
+    path: numi/FHC/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_5
       pot: 1.456e+20
@@ -3768,7 +3768,7 @@ runs:
       filter: ccnc==1 and npi0==1 and npion>=0 and (category==31 or category==5) and (abs(nu_pdg)==12 or abs(nu_pdg)==14)
   # MCC9.10 Run 5 NuMI samples with 1e0p presel
   - run_id: "5_numi_FHC_zppresel_mcnuequery_75"
-    path: slimmedMCC910/numi/FHC/run5/zppresel/
+    path: numi/FHC/run5/
     opendata_bnb:
       file: checkout_MCC9.10_Run4acd5_v10_04_07_14_NuMI_beam_on_surprise_reco2_hist_5
       pot: 1.456e+20

@@ -30,6 +30,10 @@ bkg_queries = ["category!=10 and category != 9 and category!=11 and category != 
                "category!=10 and category != 9 and category!=11 and category != 12 and npi0>0",
                "category!=10 and category != 9 and category!=11 and category != 12 and npi0==0"]
 
+# bkg_queries = ["category != 9",
+#                "category != 9 and npi0>0",
+#                "category != 9 and npi0==0"]
+
 # bkg_queries = ["category!=10 and category != 9",
 #                "category!=10 and category != 9 and npi0>0",
 #                "category!=10 and category != 9 and npi0==0"]
@@ -251,6 +255,12 @@ class NueBooster:
             train_signal_nue = self.samples["nue_signal"][0].query("%s & (category == 10 | category == 9)"%self.preselection, engine='python')[self.variables]
             train = pd.concat([train_signal_nue, train_mc])
             test = pd.concat([test_signal_nue, test_mc])
+            
+        # if "nue_signal" in self.samples:
+        #         test_signal_nue  = self.samples["nue_signal"][1].query("%s & (category == 9)"%self.preselection, engine='python')[self.variables]
+        #         train_signal_nue = self.samples["nue_signal"][0].query("%s & (category == 9)"%self.preselection, engine='python')[self.variables]
+        #         train = pd.concat([train_signal_nue, train_mc])
+        #         test = pd.concat([test_signal_nue, test_mc])
 
         if "nue_bkg" in self.samples:
             test_bkg_nue = self.samples["nue_bkg"][1].query(self.preselection + bkg_query, engine='python')[self.variables]
